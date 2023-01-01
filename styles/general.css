@@ -1,0 +1,21 @@
+.custom-tooltip {
+    --bs-tooltip-bg: var(--bs-secondary);
+}
+
+.custom-scrollbar {
+    overflow-y: scroll;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: var(--bs-gray);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background-color: #00d2ff;
+    background-image: linear-gradient(to top, #00d2ff 0%, #3a7bd5 100%);
+}
