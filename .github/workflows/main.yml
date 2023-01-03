@@ -10,30 +10,13 @@ jobs:
       - name: 🚚 Get latest code
         uses: actions/checkout@v2
 
-      - name: 🎉 Install dependencies
-        uses: actions/setup-node@v3
-        with:
-          node-version: "16.13.1"
-        run: npm ci
-
-      - name: 🧱 Build Next.js
-        run: npm run build
-
       - name: 🛑 Stop pm2
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.USER_URL }}
           username: ${{ secrets.USER_NAME }}
           password: ${{ secrets.USER_PASSWORD }}
-          script: pm2 stop jasperlorelai.eu.config.js
-
-      - name: 📂 Sync files
-        uses: SamKirkland/FTP-Deploy-Action@4.3.0
-        with:
-          server: ${{ secrets.USER_URL }}
-          username: ${{ secrets.USER_NAME }}
-          password: ${{ secrets.USER_PASSWORD }}
-          dangerous-clean-slate: true
+          script: pm2 stop jasperlorelai.eu/main.config.js
 
       - name: 📂 Sync Files
         uses: SamKirkland/web-deploy@v1
@@ -49,4 +32,4 @@ jobs:
           host: ${{ secrets.USER_URL }}
           username: ${{ secrets.USER_NAME }}
           password: ${{ secrets.USER_PASSWORD }}
-          script: pm2 start jasperlorelai.eu.config.js
+          script: pm2 start jasperlorelai.eu/main.config.js

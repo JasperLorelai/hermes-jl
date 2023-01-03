@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "setup": "npm i && npm run build && npm run start"
+  },
+  "engines": {
+    "node": "16.13.1",
+    "npm": "8.1.2"
   },
   "dependencies": {
     "@amcharts/amcharts5": "^5.2.35",

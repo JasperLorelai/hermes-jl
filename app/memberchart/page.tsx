@@ -3,7 +3,11 @@ import ChartRenderer from "./ChartRenderer";
 import {Keyv} from "../../handles/Keyv";
 
 export default async function MemberChart() {
-    const memberCount = await Keyv.get("memberTraffic") || {};
+    const memberCountText = await Keyv.get("keyv:memberTraffic") || "";
+    let memberCount = {};
+    try {
+        memberCount = JSON.parse(memberCountText)?.value;
+    } catch (e) {}
 
     const chartData: any = {};
     for (const [date, servers] of Object.entries(memberCount)) {

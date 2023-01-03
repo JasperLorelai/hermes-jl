@@ -1,6 +1,5 @@
-import KeyvLib from "keyv";
-import KeyvLibMysql from "@keyv/mysql";
+import KeyvLib from "@keyv/mysql";
 
-export const Keyv = new KeyvLib("", {store: new KeyvLibMysql(process.env.DATABASE)});
+export const Keyv = new KeyvLib(process.env.DATABASE);
 
 Keyv.on("error", console.error);
