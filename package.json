@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "setup": "npm i && npm run build && npm run start"
+    "setup": "npm i; npm run build; npm run start"
   },
   "engines": {
     "node": "16.13.1",

@@ -11,25 +11,30 @@ jobs:
         uses: actions/checkout@v2
 
       - name: 🛑 Stop pm2
-        uses: appleboy/ssh-action@v0.1.6
+        uses: D3rHase/ssh-command-action@v0.2.2
         with:
-          host: ${{ secrets.USER_URL }}
-          username: ${{ secrets.USER_NAME }}
-          password: ${{ secrets.USER_PASSWORD }}
-          script: pm2 stop jasperlorelai.eu/main.config.js
+          host: ${{ secrets.URL }}
+          user: ${{ secrets.USER }}
+          private_key: ${{ secrets.KEY }}
+          command: |
+            cd ../home/jlorelai/jasperlorelai.eu;
+            pm2 stop main.config.js;
 
       - name: 📂 Sync Files
         uses: SamKirkland/web-deploy@v1
         with:
-          target-server: ${{ secrets.USER_URL }}
-          remote-user: ${{ secrets.USER_NAME }}
-          private-ssh-key: ${{ secrets.SSH_KEY }}
-          destination-path: jasperlorelai.eu/hermes
+          target-server: ${{ secrets.URL }}
+          remote-user: ${{ secrets.USER }}
+          private-ssh-key: ${{ secrets.KEY }}
+          destination-path: ../home/jlorelai/jasperlorelai.eu/hermes
 
       - name: 🟢 Start pm2
-        uses: appleboy/ssh-action@v0.1.6
+        uses: D3rHase/ssh-command-action@v0.2.2
         with:
-          host: ${{ secrets.USER_URL }}
-          username: ${{ secrets.USER_NAME }}
-          password: ${{ secrets.USER_PASSWORD }}
-          script: pm2 start jasperlorelai.eu/main.config.js
+          host: ${{ secrets.URL }}
+          user: ${{ secrets.USER }}
+          private_key: ${{ secrets.KEY }}
+          command: |
+            cd ../home/jlorelai/jasperlorelai.eu;
+            chown --recursive root hermes;
+            pm2 start main.config.js;
