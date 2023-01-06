@@ -1,7 +1,5 @@
 "use client";
 
-import {Config} from "../../handles/Config";
-
 import {ReactElement, useEffect, useState} from "react";
 
 import NormalBadge from "./NormalBadge";
@@ -54,7 +52,7 @@ export default function Page() {
                                             .processSync(data.body)
                                             .toString()
                                     }} />
-                                    <a href={firstAsset?.browser_download_url} target="_blank" className="btn btn-primary">Download ({downloads})</a>
+                                    <a href={firstAsset?.browser_download_url} target="_blank" rel="noreferrer" className="btn btn-primary">Download ({downloads})</a>
                                 </div>
                             </div>
                         </div>
@@ -94,7 +92,7 @@ export default function Page() {
         <>
             <nav className="navbar navbar-expand-lg bg-primary navbar-dark">
                 <div className="container-fluid">
-                    <a className="navbar-brand" href={Config.urls.host + "soundboard"}>Soundboard</a>
+                    <a className="navbar-brand" href="https://jasperlorelai.eu/soundboard">Soundboard</a>
                     <button className="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                         <span className="navbar-toggler-icon" />
                     </button>
