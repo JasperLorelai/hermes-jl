@@ -14,9 +14,8 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
         document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(tooltipTriggerEl => new Tooltip(tooltipTriggerEl));
     }, []);
 
-    // noinspection JSUnresolvedLibraryURL
     return (
-        <html lang={"en"}>
+        <html lang="en">
             <body className={"h-100 custom-scrollbar text-light bg-black " + spectral.className}>
                 <main>{children}</main>
             </body>
