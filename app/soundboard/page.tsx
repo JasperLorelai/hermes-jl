@@ -105,7 +105,7 @@ export default function Page() {
                                 <a className="nav-link" href="https://github.com/TheComputerGeek2/MagicSpells">MagicSpells Repository</a>
                             </li>
                             <li className="nav-item" key="effectlib">
-                                <a className="nav-link" href="app/soundboard/page">EffectLib Plugin</a>
+                                <a className="nav-link" href="https://dev.bukkit.org/projects/effectlib">EffectLib Plugin</a>
                             </li>
                         </ul>
                     </div>
