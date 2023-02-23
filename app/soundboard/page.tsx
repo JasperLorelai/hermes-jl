@@ -16,6 +16,19 @@ const DynamicCopyBadge = dynamic(
     {ssr: false}
 );
 
+interface Asset {
+    download_count: number,
+    browser_download_url: string
+}
+
+interface ReleaseData {
+    download_count: number,
+    assets: Asset[],
+    tag_name: string,
+    name: string,
+    body: string
+}
+
 export default function Page() {
     const [data, setData] = useState(<></>);
     const [isLoading, setLoading] = useState(true);
@@ -27,17 +40,17 @@ export default function Page() {
                 const versionOptions: ReactElement[] = [];
                 const panels: ReactElement[] = [];
                 let totalDownloads = 0;
-                releases.forEach((data: any, i: number) => {
-                    const id = "list-" + i;
+                releases.forEach((data: ReleaseData, i: number) => {
+                    const tag = data.tag_name;
                     const firstAsset = data.assets.at(0);
                     const downloads = firstAsset?.download_count || 0;
                     totalDownloads += downloads;
-                    versionOptions.push(<option value={id} key={id}>{data.tag_name}</option>);
+                    versionOptions.push(<option value={tag} key={tag}>{tag}</option>);
                     panels.push(
-                        <div className={"tab-pane fade min-vh-100" + (i === 0 ? " show active" : "")} id={id} key={id} role="tabpanel">
+                        <div className={"tab-pane fade min-vh-100" + (i === 0 ? " show active" : "")} id={tag} key={tag} role="tabpanel">
                             <div className="card text-light" style={{backgroundColor: "var(--bs-gray-700)"}}>
                                 <h5 className="card-header" style={{backgroundColor: "var(--bs-gray-800)"}}>
-                                    <NormalBadge text={data.tag_name} /> {data.name}
+                                    <NormalBadge text={tag} /> {data.name}
                                 </h5>
                                 <div className="card-body">
                                     <p className="card-text" dangerouslySetInnerHTML={{
