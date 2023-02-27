@@ -1,21 +1,36 @@
+:root {
+    --jl-blue-dark: #0d6efd;
+    --jl-blue-light: #3a7bd5;
+    --jl-aqua: #00d2ff;
+    --jl-gradient: linear-gradient(to top, var(--jl-aqua) 0%, var(--jl-blue-light) 100%);
+}
+
+.custom-modal-header-color {
+    --bs-modal-header-border-color: var(--bs-gray-700);
+}
+
+.custom-modal-footer-color {
+    --bs-modal-footer-border-color: var(--bs-gray-700);
+}
+
 .custom-tooltip {
     --bs-tooltip-bg: var(--bs-secondary);
 }
 
-.custom-scrollbar {
+.cm-scroller {
     overflow-y: scroll;
 }
 
-.custom-scrollbar::-webkit-scrollbar {
+.cm-scroller::-webkit-scrollbar {
     width: 5px;
 }
 
-.custom-scrollbar::-webkit-scrollbar-track {
+.cm-scroller::-webkit-scrollbar-track {
     background: var(--bs-gray);
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
+.cm-scroller::-webkit-scrollbar-thumb {
     border-radius: 1rem;
-    background-color: #00d2ff;
-    background-image: linear-gradient(to top, #00d2ff 0%, #3a7bd5 100%);
+    background-color: var(--jl-blue-dark);
+    background-image: var(--jl-gradient);
 }

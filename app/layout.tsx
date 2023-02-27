@@ -16,7 +16,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
 
     return (
         <html lang="en">
-            <body className={"h-100 custom-scrollbar text-light bg-black " + spectral.className}>
+            <body className={"h-100 cm-scroller text-light bg-black " + spectral.className}>
                 <main>{children}</main>
             </body>
         </html>
