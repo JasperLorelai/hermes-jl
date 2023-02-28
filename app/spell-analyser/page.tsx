@@ -12,13 +12,6 @@ import {atomone} from "@uiw/codemirror-theme-atomone";
 import * as yamlMode from "@codemirror/legacy-modes/mode/yaml";
 import {StreamLanguage, LanguageSupport} from "@codemirror/language";
 
-/**
- * TODO for annoying use:
- * - Random cookies for no reason
- * - fake permissions
- * - premium for faster service prompts
- * - close random "scuffed" dev error prompts
- */
 const hints = [
     "Connecting to the interwebz",
     "Communicating with the AIs",
