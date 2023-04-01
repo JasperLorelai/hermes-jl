@@ -10,10 +10,8 @@ const spectral = Spectral({subsets: ["latin"], weight: "400"});
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
     useEffect(() => {
-        const {Tooltip} = require("bootstrap");
-        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(tooltipTriggerEl => new Tooltip(tooltipTriggerEl));
+        require("bootstrap");
     }, []);
-
     return (
         <html lang="en">
             <body className={"h-100 cm-scroller text-light bg-black " + spectral.className}>

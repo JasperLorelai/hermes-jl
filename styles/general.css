@@ -13,10 +13,6 @@
     --bs-modal-footer-border-color: var(--bs-gray-700);
 }
 
-.custom-tooltip {
-    --bs-tooltip-bg: var(--bs-secondary);
-}
-
 .cm-scroller {
     overflow-y: scroll;
 }

@@ -1,4 +1,4 @@
-module.exports = function() {
+module.exports = () => {
     fetch("https://chatapi.viber.com/pa/set_webhook", {
         method: "POST",
         body: JSON.stringify({url: "https://jasperlorelai.eu/api/viber", event_types: []}),

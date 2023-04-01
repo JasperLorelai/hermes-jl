@@ -2,19 +2,13 @@
 
 import {ReactElement, useEffect, useState} from "react";
 
-import NormalBadge from "./NormalBadge";
+import {PrimaryBadge, SecondaryBadge} from "./Badge";
 
 import {unified} from "unified";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
-import rehypeStringify from "rehype-stringify"
 import addClasses from "rehype-add-classes";
-import dynamic from "next/dynamic";
-
-const DynamicCopyBadge = dynamic(
-    () => import("./CopyBadge"),
-    {ssr: false}
-);
+import rehypeStringify from "rehype-stringify";
 
 interface Asset {
     download_count: number,
@@ -50,7 +44,7 @@ export default function Page() {
                         <div className={"tab-pane fade min-vh-100" + (i === 0 ? " show active" : "")} id={tag} key={tag} role="tabpanel">
                             <div className="card text-light" style={{backgroundColor: "var(--bs-gray-700)"}}>
                                 <h5 className="card-header" style={{backgroundColor: "var(--bs-gray-800)"}}>
-                                    <NormalBadge text={tag} /> {data.name}
+                                    <PrimaryBadge text={tag} /> {data.name}
                                 </h5>
                                 <div className="card-body">
                                     <p className="card-text" dangerouslySetInnerHTML={{
@@ -128,15 +122,15 @@ export default function Page() {
             <div className="container lh-lg py-sm-5">
                 <h1>How to set up:</h1>
                 <p>
-                    This configuration file requires the plugin MagicSpells to run. Note that the <NormalBadge text={"1.0.0"} /> version
-                    of the Soundboard only includes sounds up to <NormalBadge text={"1.12.2"} />. That Minecraft version is only supported
-                    by MagicSpells versions below <NormalBadge text={"4.0"} />, which require EffectLib as well. The <NormalBadge text={"1.0.0"} />
-                    version works on Minecraft versions <NormalBadge text={"1.8.x-1.12.2"} />, but you obviously can not play <NormalBadge texT={"1.12.x"} />
-                    sounds on versions below. Soundboard versions above <NormalBadge text={"1.0.0"} /> support MagicSpells <NormalBadge text={"4.0+."} />
+                    This configuration file requires the plugin MagicSpells to run. Note that the <PrimaryBadge text={"1.0.0"} /> version
+                    of the Soundboard only includes sounds up to <PrimaryBadge text={"1.12.2"} />. That Minecraft version is only supported
+                    by MagicSpells versions below <PrimaryBadge text={"4.0"} />, which require EffectLib as well. The <PrimaryBadge text={"1.0.0"} />
+                    version works on Minecraft versions <PrimaryBadge text={"1.8.x-1.12.2"} />, but you obviously can not play <PrimaryBadge text={"1.12.x"} />
+                    sounds on versions below. Soundboard versions above <PrimaryBadge text={"1.0.0"} /> support MagicSpells <PrimaryBadge text={"4.0+."} />
                 </p>
                 <p>
                     Download the configuration file below and place the file in your MagicSpells plugin folder, then reload the plugin.
-                    To open use one of following commands: <DynamicCopyBadge text={"/soundboard"} />, <DynamicCopyBadge text={"/sounds"} /> or <DynamicCopyBadge text={"/sb"} />.
+                    To open use one of following commands: <SecondaryBadge text={"/soundboard"} />, <SecondaryBadge text={"/sounds"} /> or <SecondaryBadge text={"/sb"} />.
                 </p>
                 <p>
                     In the GUI you can search for sounds to check their sound names or select it to play it. You can modify
@@ -154,15 +148,6 @@ export default function Page() {
                     :
                     <>{data}</>
                 }
-            </div>
-
-            <div className="toast-container position-fixed bottom-0 end-0 p-3">
-                <div id="liveToast" className="toast align-items-center text-bg-dark" data-bs-delay="1000" role="alert">
-                    <div className="d-flex">
-                        <div className="toast-body">Text copied.</div>
-                        <button type="button" className="btn-close me-2 m-auto btn-close-white" data-bs-dismiss="toast" />
-                    </div>
-                </div>
             </div>
         </>
     );
