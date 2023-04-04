@@ -1,3 +1,6 @@
+const setupViber = require("./handles/setupViber");
+const saveMCVersions = require("./handles/saveMCVersions");
+
 /**
  * @type import("next").NextConfig
  */
@@ -42,7 +45,10 @@ const nextConfig = {
  * Not recommended to run init scripts like this, but I couldn't find a better way.
  * @version (Next.js) 13.1.1
  */
-module.exports = (phase) => {
-  if (!phase.includes("build")) require("./handles/setupViber")();
+module.exports = async phase => {
+  if (!phase.includes("build")) {
+    setupViber();
+    await saveMCVersions();
+  }
   return nextConfig;
 };
