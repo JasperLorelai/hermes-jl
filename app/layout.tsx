@@ -13,7 +13,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
         require("bootstrap");
     }, []);
     return (
-        <html lang="en">
+        <html lang="en" data-bs-theme="dark">
             <body className={"h-100 cm-scroller text-light bg-black " + spectral.className}>
                 <main>{children}</main>
             </body>

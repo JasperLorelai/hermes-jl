@@ -53,7 +53,7 @@ export default function Page() {
                                             .use(remarkRehype)
                                             .use(addClasses, {
                                                 img: "img-fluid",
-                                                code: "p-1 text-light bg-secondary"
+                                                code: "p-1 bg-secondary"
                                             })
                                             .use(rehypeStringify)
                                             .processSync(data.body)
@@ -69,7 +69,7 @@ export default function Page() {
                 setData(
                     <>
                         <h1>Downloads <i>({totalDownloads}):</i></h1>
-                        <select className="form-select form-select-lg mb-3 text-center w-25 text-bg-dark" defaultValue={0} onChange={e => {
+                        <select className="form-select form-select-lg mb-3 text-center w-25" defaultValue={0} onChange={e => {
                             const el = document.getElementById(e.target.value);
                             if (!el) return;
                             const panes = document.getElementsByClassName("tab-pane");
@@ -97,7 +97,7 @@ export default function Page() {
 
     return (
         <>
-            <nav className="navbar navbar-expand-lg bg-primary navbar-dark">
+            <nav className="navbar navbar-expand-lg bg-primary">
                 <div className="container-fluid">
                     <a className="navbar-brand" href="https://jasperlorelai.eu/soundboard">Soundboard</a>
                     <button className="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#navbarNav">
