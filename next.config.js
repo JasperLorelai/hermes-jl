@@ -7,9 +7,7 @@ const saveMCVersions = require("./handles/saveMCVersions");
 const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
-  experimental: {
-    appDir: true
-  },
+  experimental: {appDir: true},
   async headers() {
     return [
       {
