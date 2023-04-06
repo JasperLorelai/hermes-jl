@@ -1,4 +1,17 @@
 import Link from "next/link";
+import {Metadata} from "next";
+
+const title = "How old is MC?";
+export const metadata: Metadata = {
+    title,
+    themeColor: "#0296ff",
+    openGraph: {
+        title,
+        siteName: title,
+        url: "/howoldis/mc/",
+        description: "View the age of a specific Minecraft version."
+    }
+}
 
 export default function Page() {
     const versionData = require("public/mcVersionData.json") || {};

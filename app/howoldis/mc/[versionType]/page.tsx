@@ -1,6 +1,14 @@
 import Link from "next/link";
+import {Metadata} from "next";
 
+import {metadata as oldMetadata} from "../page";
 import {ParamsVersionType} from "./[version]/MCVersionParams";
+
+export function generateMetadata({params: {versionType}}: ParamsVersionType): Metadata {
+    const old = Object.assign({}, oldMetadata);
+    if (old.openGraph) old.openGraph.url = "/howoldis/mc/" + versionType;
+    return old;
+}
 
 export default function Page({params: {versionType}}: ParamsVersionType) {
     const allVersionData = require("public/mcVersionData.json") || {};

@@ -2,9 +2,10 @@ import React from "react";
 import Link from "next/link";
 import {Metadata} from "next";
 
-import {ParamsVersion} from "./MCVersionParams";
-
 import {Seconds, TimeTypes} from "seconds-util";
+
+import {ParamsVersion} from "./MCVersionParams";
+import {generateMetadata as generateOldMetadata} from "../page";
 
 function getAge(versionType: string, version: string) {
     const allVersionData = require("public/mcVersionData.json") || {};
@@ -16,18 +17,17 @@ function getAge(versionType: string, version: string) {
     return Seconds.from(TimeTypes.MILLISECOND, millisSince).toDuration();
 }
 
-export function generateMetadata({params: {versionType, version}}: ParamsVersion): Metadata {
+export function generateMetadata(params: ParamsVersion): Metadata {
+    const oldMetadata = Object.assign({}, generateOldMetadata(params));
+    const {params: {versionType, version}} = params;
     const title = `How old is MC ${version}?`;
-    return {
-        title,
-        themeColor: "#0296ff",
-        openGraph: {
-            title,
-            siteName: "How old is MC?",
-            url: `/howoldis/mc/${versionType}/${version}`,
-            description: "Age: " + getAge(versionType, version)
-        }
-    };
+    oldMetadata.title = title;
+    if (oldMetadata.openGraph) {
+        oldMetadata.openGraph.title = title;
+        oldMetadata.openGraph.url = `/howoldis/mc/${versionType}/${version}`;
+        oldMetadata.openGraph.description = getAge(versionType, version);
+    }
+    return oldMetadata;
 }
 
 export default function Page({params: {versionType, version}}: ParamsVersion) {
