@@ -2,13 +2,19 @@ import React from "react";
 import Link from "next/link";
 import {Metadata} from "next";
 
+import fs from "fs";
+
 import {Seconds, TimeTypes} from "seconds-util";
 
 import {ParamsVersion} from "./MCVersionParams";
 import {generateMetadata as generateOldMetadata} from "../page";
 
+const versionDataPath = "./public/mcVersionData.json";
+
 function getAge(versionType: string, version: string) {
-    const allVersionData = require("public/mcVersionData.json") || {};
+    if (!fs.existsSync(versionDataPath)) return "";
+    const allVersionRawData = fs.readFileSync(versionDataPath).toString();
+    const allVersionData = JSON.parse(allVersionRawData) || {};
     const versionData = allVersionData[versionType];
     if (!versionData) return "";
     const releaseTime = versionData.find((data: any) => data.id === version)?.releaseTime;
@@ -19,6 +25,7 @@ function getAge(versionType: string, version: string) {
 
 export function generateMetadata(params: ParamsVersion): Metadata {
     const oldMetadata = Object.assign({}, generateOldMetadata(params));
+    if (!oldMetadata) return {};
     const {params: {versionType, version}} = params;
     const title = `How old is MC ${version}?`;
     oldMetadata.title = title;

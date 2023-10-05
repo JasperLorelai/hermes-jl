@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 export default async function MemberChart() {
     const chartData: any = {};
     for (const [date, servers] of Object.entries(await Keyv.get("memberTraffic") || {})) {
+        // @ts-ignore
         for (const [server, count] of Object.entries(servers)) {
             chartData[server] ??= [];
             chartData[server].push({category: date, count});

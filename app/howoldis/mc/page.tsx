@@ -1,7 +1,11 @@
 import Link from "next/link";
 import {Metadata} from "next";
 
+import fs from "fs";
+
 const title = "How old is MC?";
+const versionDataPath = "./public/mcVersionData.json";
+
 export const metadata: Metadata = {
     title,
     themeColor: "#0296ff",
@@ -14,8 +18,12 @@ export const metadata: Metadata = {
 }
 
 export default function Page() {
-    const versionData = require("public/mcVersionData.json") || {};
-    const versionTypes = Object.keys(versionData).map(type =>
+    let versionData;
+    if (fs.existsSync(versionDataPath)) {
+        const versionRawData = fs.readFileSync(versionDataPath).toString();
+        versionData = JSON.parse(versionRawData);
+    }
+    const versionTypes = Object.keys(versionData || {}).map(type =>
         <Link key={type} className="list-group-item list-group-item-action"  href={`/howoldis/mc/${type}`}>
             {type.split("_")
                 .map(w => w.charAt(0).toUpperCase() + w.substring(1).toLowerCase())

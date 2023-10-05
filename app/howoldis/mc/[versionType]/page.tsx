@@ -1,8 +1,12 @@
 import Link from "next/link";
 import {Metadata} from "next";
 
+import fs from "fs";
+
 import {metadata as oldMetadata} from "../page";
 import {ParamsVersionType} from "./[version]/MCVersionParams";
+
+const versionDataPath = "./public/mcVersionData.json";
 
 export function generateMetadata({params: {versionType}}: ParamsVersionType): Metadata {
     const old = Object.assign({}, oldMetadata);
@@ -11,8 +15,12 @@ export function generateMetadata({params: {versionType}}: ParamsVersionType): Me
 }
 
 export default function Page({params: {versionType}}: ParamsVersionType) {
-    const allVersionData = require("public/mcVersionData.json") || {};
-    const versionData = allVersionData[versionType];
+    let versionData;
+    if (fs.existsSync(versionDataPath)) {
+        const allVersionRawData = fs.readFileSync(versionDataPath).toString();
+        const allVersionData = JSON.parse(allVersionRawData) || {};
+        versionData = allVersionData[versionType];
+    }
     return (
         <div className="container py-5 vh-100 text-center">
             <h1>How old is Minecraft?</h1>
