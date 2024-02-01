@@ -2,6 +2,7 @@
 
 # Other
 /public/mcVersionData.json
+/public/archive
 
 # dependencies
 /node_modules
