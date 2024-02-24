@@ -3,6 +3,7 @@
 # Other
 /public/mcVersionData.json
 /public/archive
+.env
 
 # dependencies
 /node_modules
