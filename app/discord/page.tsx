@@ -5,11 +5,12 @@ const title = "Discord support server";
 export const metadata: Metadata = {
     title,
     themeColor: "#007bff",
+    twitter: {card: "summary"},
     openGraph: {
         title,
         siteName: title,
         description: "A Discord support server for my projects. ❤",
-        images: "https://jasperlorelai.eu/discord-icon.png"
+        images: "https://files.jasperlorelai.eu/random/images/discord_icon.png"
     }
 };
 

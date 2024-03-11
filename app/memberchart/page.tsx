@@ -8,11 +8,12 @@ const title = "Member Traffic Chart";
 export const metadata: Metadata = {
     title,
     themeColor: "#67727a",
+    twitter: {card: "summary"},
     openGraph: {
         title,
         siteName: title,
         description: "A traffic chart generator for Discord servers.",
-        images: "https://cdn.discordapp.com/attachments/423551934784339968/765250193348100127/unknown.png"
+        images: "https://files.jasperlorelai.eu/projects/images/memberchart.png",
     }
 };
 

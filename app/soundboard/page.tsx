@@ -7,11 +7,12 @@ const title = "Minecraft Soundboard";
 export const metadata: Metadata = {
     title,
     themeColor: "#ff7a21",
+    twitter: {card: "summary"},
     openGraph: {
         title,
         siteName: title,
         description: "A minecraft soundboard. Made with ❤ using the MagicSpells plugin.",
-        images: "https://cdn.discordapp.com/attachments/423551934784339968/665490786468626452/dzIqb-FsjNxRvlhODVh1fPZMnqX7jWK0sx8S3j2vGn72C-lUYYgL4XVe_CGJiwfe4mgw300.png"
+        images: "https://files.jasperlorelai.eu/projects/images/soundboard.png"
     }
 };
 

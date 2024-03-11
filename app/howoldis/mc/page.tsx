@@ -9,6 +9,7 @@ const versionDataPath = "./public/mcVersionData.json";
 export const metadata: Metadata = {
     title,
     themeColor: "#0296ff",
+    twitter: {card: "summary"},
     openGraph: {
         title,
         siteName: title,
