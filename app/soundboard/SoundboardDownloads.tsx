@@ -70,15 +70,17 @@ export default function SoundboardDownloads() {
                 setData(
                     <>
                         <h1>Downloads <i>({totalDownloads}):</i></h1>
-                        <select className="form-select form-select-lg mb-3 text-center w-25" defaultValue={0} onChange={e => {
-                            const el = document.getElementById(e.target.value);
-                            if (!el) return;
-                            const panes = document.getElementsByClassName("tab-pane");
-                            for (const pane of panes) {
-                                if (el === pane) pane.classList.add("show", "active");
-                                else pane.classList.remove("show", "active");
-                            }
-                        }}>{versionOptions}</select>
+                        <hr/>
+                        <select className="form-select form-select-lg mb-3 text-center w-25" defaultValue={0}
+                                onChange={e => {
+                                    const el = document.getElementById(e.target.value);
+                                    if (!el) return;
+                                    const panes = document.getElementsByClassName("tab-pane");
+                                    for (const pane of panes) {
+                                        if (el === pane) pane.classList.add("show", "active");
+                                        else pane.classList.remove("show", "active");
+                                    }
+                                }}>{versionOptions}</select>
                         <div className="tab-content">{panels}</div>
                     </>
                 );
