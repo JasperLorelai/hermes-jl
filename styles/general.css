@@ -5,6 +5,13 @@
     --jl-gradient: linear-gradient(to top, var(--jl-aqua) 0%, var(--jl-blue-light) 100%);
 }
 
+code {
+    font-family: inherit;
+    color: var(--jl-blue-dark);
+    padding: 2px;
+    font-size: 105%;
+}
+
 .custom-modal-header-color {
     --bs-modal-header-border-color: var(--bs-gray-700);
 }
@@ -18,11 +25,12 @@
 }
 
 .cm-scroller::-webkit-scrollbar {
-    width: 5px;
+    width: 0.75rem;
 }
 
 .cm-scroller::-webkit-scrollbar-track {
     background: var(--bs-gray);
+    border-radius: 0.5rem;
 }
 
 .cm-scroller::-webkit-scrollbar-thumb {
