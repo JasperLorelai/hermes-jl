@@ -10,6 +10,7 @@ import addClasses from "rehype-add-classes";
 import rehypeStringify from "rehype-stringify";
 
 import {PrimaryBadge} from "./Badge";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 interface Asset {
     download_count: number,
@@ -98,12 +99,6 @@ export default function SoundboardDownloads() {
             });
     }, []);
 
-    if (isLoading) return (
-        <div className="d-flex justify-content-center">
-            <div className="spinner-border m-5" role="status">
-                <span className="visually-hidden">Loading...</span>
-            </div>
-        </div>
-    );
+    if (isLoading) return (<LoadingSpinner/>);
     return data;
 }
