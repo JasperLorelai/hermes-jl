@@ -44,7 +44,7 @@ export default function Page({params: {versionType, version}}: ParamsVersion) {
             <div className="text-center">
                 <h1>How old is Minecraft?</h1>
                 <div className="row-cols-4 py-2">
-                    <Link className="btn btn-primary" type="button" href={`/howoldis/mc/${versionType}`}>
+                    <Link className="btn btn-primary" type="button" href={`/howoldis/mc/${versionType}`} prefetch={true}>
                         <i className="bi bi-arrow-left-short"></i>
                         Back
                     </Link>

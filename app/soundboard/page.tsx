@@ -28,13 +28,13 @@ export default function Page() {
                     <div className="navbar-collapse collapse" id="navbarNav">
                         <ul className="navbar-nav">
                             <li className="nav-item" key="repository">
-                                <a className="nav-link" href="https://github.com/JasperLorelai/minecraft-soundboard">Project Repository</a>
+                                <a className="nav-link" target="_blank" href="https://github.com/JasperLorelai/minecraft-soundboard">Project Repository</a>
                             </li>
                             <li className="nav-item" key="ms_repository">
-                                <a className="nav-link" href="https://github.com/TheComputerGeek2/MagicSpells">MagicSpells Repository</a>
+                                <a className="nav-link" target="_blank" href="https://github.com/TheComputerGeek2/MagicSpells">MagicSpells Repository</a>
                             </li>
                             <li className="nav-item" key="effectlib">
-                                <a className="nav-link" href="https://dev.bukkit.org/projects/effectlib">EffectLib Plugin</a>
+                                <a className="nav-link" target="_blank" href="https://dev.bukkit.org/projects/effectlib">EffectLib Plugin</a>
                             </li>
                         </ul>
                     </div>

@@ -25,7 +25,7 @@ export default function Page({params: {versionType}}: ParamsVersionType) {
         <div className="container py-5 vh-100 text-center">
             <h1>How old is Minecraft?</h1>
             <div className="row-cols-4 py-2">
-                <Link className="btn btn-primary" type="button" href={"/howoldis/mc"}>
+                <Link className="btn btn-primary" type="button" href={"/howoldis/mc"} prefetch={true}>
                     <i className="bi bi-arrow-left-short"></i>
                     Back
                 </Link>
@@ -36,7 +36,7 @@ export default function Page({params: {versionType}}: ParamsVersionType) {
                         const {id} = version;
                         return (
                             <Link className="list-group-item list-group-item-action"
-                                  href={`/howoldis/mc/${versionType}/${id}`} key={id}>
+                                  href={`/howoldis/mc/${versionType}/${id}`} key={id} prefetch={true}>
                                 {id}
                             </Link>
                         );
