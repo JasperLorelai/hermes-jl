@@ -88,7 +88,7 @@ function search(documentation: Documentation | undefined, selected: string | nul
                                     <td><code className="small">{parameter.name}</code></td>
                                     <td dangerouslySetInnerHTML={{__html: resolveMarkdownLinks(parameter.type)}}></td>
                                     {hasDefaults ?
-                                        <td><code>{parameter.default}</code></td> : <></>}
+                                        <td><code dangerouslySetInnerHTML={{__html: parameter.default?.replace("\n", "<br/>") || ""}}></code></td> : <></>}
                                 </tr>
                             </>)}
                             </tbody>
