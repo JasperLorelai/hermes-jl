@@ -10,7 +10,7 @@ export const metadata: Metadata = {
         title,
         siteName: title,
         url: "/docs/antigone/",
-        description: "View documentation for the Antigone addon.",
+        description: "View documentation for the Antigone, a MagicSpells addon.",
         images: "https://files.jasperlorelai.eu/projects/images/antigone.png"
     }
 }
