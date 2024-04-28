@@ -8,7 +8,7 @@ import DocumentationContext from "../DocumentationContext";
 
 const baseURL = "https://jasperlorelai.eu/antigone";
 function resolveMarkdownLinks(string: string) {
-    const linkPattern = /\[(\w+ ?)+]\(([^)]+)\)/;
+    const linkPattern = /\[(\w+(?: \w+)*)]\(([^)]+)\)/;
     while (linkPattern.test(string)) {
         const match = string.match(linkPattern);
         if (!match) continue;
