@@ -4,23 +4,24 @@ import {Metadata} from "next";
 
 import fs from "fs";
 
-import {Seconds, TimeTypes} from "seconds-util";
+import {Seconds} from "seconds-util";
 
 import {ParamsVersion} from "./MCVersionParams";
 import {generateMetadata as generateOldMetadata} from "../page";
 
 const versionDataPath = "./public/mcVersionData.json";
 
-function getAge(versionType: string, version: string) {
-    if (!fs.existsSync(versionDataPath)) return "";
+function getAge(releaseDate: Date | null) {
+    if (!releaseDate) return "";
+    return Seconds.milliseconds(Date.now() - releaseDate.getTime()).toDuration();
+}
+
+function getReleaseDate(versionType: string, version: string) {
+    if (!fs.existsSync(versionDataPath)) return null;
     const allVersionRawData = fs.readFileSync(versionDataPath).toString();
     const allVersionData = JSON.parse(allVersionRawData) || {};
-    const versionData = allVersionData[versionType];
-    if (!versionData) return "";
-    const releaseTime = versionData.find((data: any) => data.id === version)?.releaseTime;
-    if (!releaseTime) return "";
-    let millisSince = Date.now() - new Date(releaseTime).getTime();
-    return Seconds.from(TimeTypes.MILLISECOND, millisSince).toDuration();
+    const releaseTime = allVersionData[versionType]?.find((data: any) => data.id === version)?.releaseTime || 0;
+    return new Date(releaseTime);
 }
 
 export function generateMetadata(params: ParamsVersion): Metadata {
@@ -29,16 +30,17 @@ export function generateMetadata(params: ParamsVersion): Metadata {
     const {params: {versionType, version}} = params;
     const title = `How old is MC ${version}?`;
     oldMetadata.title = title;
-    if (oldMetadata.openGraph) {
+    const releaseDate = getReleaseDate(versionType, version);
+    if (releaseDate && oldMetadata.openGraph) {
         oldMetadata.openGraph.title = title;
         oldMetadata.openGraph.url = `/howoldis/mc/${versionType}/${version}`;
-        oldMetadata.openGraph.description = getAge(versionType, version);
+        oldMetadata.openGraph.description = releaseDate.toUTCString() + " - " + getAge(releaseDate);
     }
     return oldMetadata;
 }
 
 export default function Page({params: {versionType, version}}: ParamsVersion) {
-    const age = getAge(versionType, version);
+    const releaseDate = getReleaseDate(versionType, version);
     return (
         <div className="container py-5 vh-100">
             <div className="text-center">
@@ -50,10 +52,13 @@ export default function Page({params: {versionType, version}}: ParamsVersion) {
                     </Link>
                 </div>
             </div>
-            {age ?
+            {releaseDate ?
                 <div className="display-6">
-                    Version: <span className="text-primary">{version}</span><br/>
-                    Age: <span className="text-primary">{age}</span>
+                    <div>Version: <span className="text-primary">{version}</span></div>
+                    <div>Release Time: <a className="text-primary" href={"https://time.is/" + releaseDate.getTime()} target="_blank">
+                        {releaseDate.toUTCString()}
+                    </a></div>
+                    <div>Age: <span className="text-primary">{getAge(releaseDate)}</span></div>
                 </div>
                 :
                 <h2 className="text-danger">This version type does not exist.</h2>

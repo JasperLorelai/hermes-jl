@@ -34,7 +34,7 @@
     "rehype-stringify": "^9.0.3",
     "rehype-add-classes": "^1.0.0",
     "codemirror": "^6.0.1",
-    "seconds-util": "github:JasperLorelai/seconds-util",
+    "seconds-util": "^1.1.1",
     "@codemirror/language": "^6.6.0",
     "@codemirror/legacy-modes": "^6.3.1",
     "@codemirror/stream-parser": "^0.19.9",
