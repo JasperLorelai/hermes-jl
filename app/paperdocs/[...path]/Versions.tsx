@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from "react";
 
 const versions = [
-    "1.21",
+    "1.21.1",
     "1.20.6",
     "1.20.5",
     "1.20.4",
