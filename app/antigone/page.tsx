@@ -20,7 +20,6 @@ export default function Page() {
        setLoading(false);
     })()}, []);
 
-
     if (isLoading) return (<LoadingSpinner/>);
     return (
         <>

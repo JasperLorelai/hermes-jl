@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {Metadata} from "next";
+import {cookies} from "next/headers";
 
 import fs from "fs";
 
@@ -19,23 +20,26 @@ export const metadata: Metadata = {
 }
 
 export default function Page() {
-    let versionData;
+    cookies(); // opt out of cache
+
+    let versionData = {};
     if (fs.existsSync(versionDataPath)) {
         const versionRawData = fs.readFileSync(versionDataPath).toString();
         versionData = JSON.parse(versionRawData);
     }
-    const versionTypes = Object.keys(versionData || {}).map(type =>
-        <Link key={type} className="list-group-item list-group-item-action"  href={`/howoldis/mc/${type}`} prefetch={true}>
-            {type.split("_")
-                .map(w => w.charAt(0).toUpperCase() + w.substring(1).toLowerCase())
-                .join(" ")}
-        </Link>
-    );
+    const versionTypes = Object.keys(versionData);
+
     return (
         <div className="container py-5 vh-100 text-center">
             <h1>How old is Minecraft?</h1>
             <div className="list-group col-5 mx-auto d-grid py-3">
-                {versionTypes}
+                {versionTypes.map(type =>
+                    <Link key={type} className="list-group-item list-group-item-action"  href={`/howoldis/mc/${type}`} prefetch={true}>
+                        {type.split("_")
+                            .map(w => w.charAt(0).toUpperCase() + w.substring(1).toLowerCase())
+                            .join(" ")}
+                    </Link>
+                )}
             </div>
         </div>
     );

@@ -23,7 +23,7 @@ export async function register() {
             versionData[type] ??= [];
             versionData[type].push({id, releaseTime});
         }
-        fs.writeFileSync(publicDir + "/mcVersionData.json", JSON.stringify(versionData, null, 4));
+        fs.writeFileSync(publicDir + "/mcVersionData.json", JSON.stringify(versionData));
     }
     await saveMC();
     setInterval(saveMC, 24 * 60 * 60 * 1_000);
