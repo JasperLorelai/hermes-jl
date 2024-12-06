@@ -2,7 +2,8 @@ import React from "react";
 
 import Versions from "./Versions";
 
-export default function Page({params: {path}}: {params: {path: string[]}}) {
+export default async function Page(props: {params: Promise<{path: string[]}>}) {
+    const {path} = await props.params;
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-primary">

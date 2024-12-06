@@ -24,10 +24,11 @@ function getReleaseDate(versionType: string, version: string) {
     return new Date(releaseTime);
 }
 
-export function generateMetadata(params: ParamsVersion): Metadata {
-    const oldMetadata = Object.assign({}, generateOldMetadata(params));
+export async function generateMetadata(paramsAsync: ParamsVersion): Promise<Metadata> {
+    const params = await paramsAsync.params;
+    const oldMetadata = Object.assign({}, await generateOldMetadata(paramsAsync));
     if (!oldMetadata) return {};
-    const {params: {versionType, version}} = params;
+    const {versionType, version} = params;
     const title = `How old is MC ${version}?`;
     oldMetadata.title = title;
     const releaseDate = getReleaseDate(versionType, version);
@@ -39,7 +40,8 @@ export function generateMetadata(params: ParamsVersion): Metadata {
     return oldMetadata;
 }
 
-export default function Page({params: {versionType, version}}: ParamsVersion) {
+export default async function Page(props: ParamsVersion) {
+    const {versionType, version} = await props.params;
     const releaseDate = getReleaseDate(versionType, version);
     return (
         <div className="container py-5 vh-100">

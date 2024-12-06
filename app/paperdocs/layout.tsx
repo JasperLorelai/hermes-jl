@@ -1,10 +1,9 @@
-import {Metadata} from "next";
 import React from "react";
+import {Metadata, Viewport} from "next";
 
 const title = "PaperMC JavaDoc Version Picker";
 export const metadata: Metadata = {
     title,
-    themeColor: "#ff6600",
     twitter: {card: "summary"},
     openGraph: {
         title,
@@ -12,6 +11,8 @@ export const metadata: Metadata = {
         description: "Lets you pick for which MC version you want PaperMC JavaDocs for.",
     }
 };
+
+export const viewport: Viewport = {themeColor: "#ff6600"};
 
 export default function Layout({children}: {children: React.ReactNode}) {
     return children;

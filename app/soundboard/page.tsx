@@ -1,4 +1,4 @@
-import {Metadata} from "next";
+import {Metadata, Viewport} from "next";
 
 import {PrimaryBadge, SecondaryBadge} from "./Badge";
 import SoundboardDownloads from "./SoundboardDownloads";
@@ -6,7 +6,6 @@ import SoundboardDownloads from "./SoundboardDownloads";
 const title = "Minecraft Soundboard";
 export const metadata: Metadata = {
     title,
-    themeColor: "#ff7a21",
     twitter: {card: "summary"},
     openGraph: {
         title,
@@ -15,6 +14,8 @@ export const metadata: Metadata = {
         images: "https://files.jasperlorelai.eu/projects/images/soundboard.png"
     }
 };
+
+export const viewport: Viewport = {themeColor: "#ff7a21"};
 
 export default function Page() {
     return (

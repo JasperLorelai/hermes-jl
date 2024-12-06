@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {Metadata} from "next";
+import {Metadata, Viewport} from "next";
 import {cookies} from "next/headers";
 
 import fs from "fs";
@@ -9,7 +9,6 @@ const versionDataPath = "./public/mcVersionData.json";
 
 export const metadata: Metadata = {
     title,
-    themeColor: "#0296ff",
     twitter: {card: "summary"},
     openGraph: {
         title,
@@ -17,10 +16,12 @@ export const metadata: Metadata = {
         url: "/howoldis/mc/",
         description: "View the age of a specific Minecraft version."
     }
-}
+};
 
-export default function Page() {
-    cookies(); // opt out of cache
+export const viewport: Viewport = {themeColor: "#0296ff"};
+
+export default async function Page() {
+    await cookies(); // opt out of cache
 
     let versionData = {};
     if (fs.existsSync(versionDataPath)) {

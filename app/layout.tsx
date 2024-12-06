@@ -1,5 +1,5 @@
 import React from "react";
-import {Metadata} from "next";
+import {Metadata, Viewport} from "next";
 import localFont from "next/font/local";
 
 import BootstrapJS from "./BootstrapJS";
@@ -16,11 +16,12 @@ export const metadata: Metadata = {
         "http://localhost:" + process.env.PORT :
         "https://jasperlorelai.eu"
     ),
-    viewport: {
-        width: "device-width",
-        initialScale: 1
-    }
-}
+};
+
+export const viewport: Viewport = {
+    width: "device-width",
+    initialScale: 1
+};
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
     return (
@@ -38,7 +39,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
                 <title>Jasper Lorelai&apos;s website</title>
             </head>
             <body className={"h-100 cm-scroller text-light bg-black " + font.className}>
-            <main>{children}</main>
+                <main>{children}</main>
             </body>
         </html>
     );

@@ -8,13 +8,21 @@ import {ParamsVersionType} from "./[version]/MCVersionParams";
 
 const versionDataPath = "./public/mcVersionData.json";
 
-export function generateMetadata({params: {versionType}}: ParamsVersionType): Metadata {
+export async function generateMetadata(props: ParamsVersionType): Promise<Metadata> {
+    const params = await props.params;
+
+    const {
+        versionType
+    } = params;
+
     const old = Object.assign({}, oldMetadata);
     if (old.openGraph) old.openGraph.url = "/howoldis/mc/" + versionType;
     return old;
 }
 
-export default function Page({params: {versionType}}: ParamsVersionType) {
+export default async function Page(props: ParamsVersionType) {
+    const {versionType} = await props.params;
+
     let versionData;
     if (fs.existsSync(versionDataPath)) {
         const allVersionRawData = fs.readFileSync(versionDataPath).toString();

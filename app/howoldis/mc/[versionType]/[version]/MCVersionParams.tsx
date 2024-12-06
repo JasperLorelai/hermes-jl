@@ -1,4 +1,4 @@
-type Params<T> = {params: T};
+type Params<T> = {params: Promise<T>};
 type VersionType = {versionType: string};
 type Version = {version: string};
 

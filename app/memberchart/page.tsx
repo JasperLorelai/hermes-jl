@@ -1,4 +1,4 @@
-import {Metadata} from "next";
+import {Metadata, Viewport} from "next";
 
 import ChartRenderer from "./ChartRenderer";
 
@@ -7,7 +7,6 @@ import {Keyv} from "../../handles/Keyv";
 const title = "Member Traffic Chart";
 export const metadata: Metadata = {
     title,
-    themeColor: "#67727a",
     twitter: {card: "summary"},
     openGraph: {
         title,
@@ -16,6 +15,8 @@ export const metadata: Metadata = {
         images: "https://files.jasperlorelai.eu/projects/images/memberchart.png",
     }
 };
+
+export const viewport: Viewport = {themeColor: "#67727a"};
 
 export default async function MemberChart() {
     const chartData: any = {};

@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState, use} from "react";
 
 import {Documentation} from "../Documentation";
 import {ParamsMinecraftVersion} from "../Params";
@@ -122,7 +122,9 @@ function search(documentation: Documentation | undefined, selected: string | nul
     };
 }
 
-export default function Page({params: {mcVersion}}: ParamsMinecraftVersion) {
+export default function Page(props: ParamsMinecraftVersion) {
+    const {mcVersion} = use(props.params);
+
     const documentation = useContext(DocumentationContext)?.[mcVersion];
 
     const hash = window.location.hash.substring(1);

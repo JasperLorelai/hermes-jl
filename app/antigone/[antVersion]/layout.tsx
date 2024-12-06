@@ -1,13 +1,15 @@
 "use client";
 
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, use} from "react";
 
 import {ParamsAntigoneVersion} from "./Params";
 import {DocumentationFull} from "./Documentation";
 import DocumentationContext from "./DocumentationContext";
 import LoadingSpinner from "../../../components/LoadingSpinner";
 
-export default function Layout({params: {antVersion}, children}: {children: React.ReactNode} & ParamsAntigoneVersion) {
+export default function Layout(props: {children: React.ReactNode} & ParamsAntigoneVersion) {
+    const {antVersion} = use(props.params);
+
     const [documentation, setDocumentation] = useState<DocumentationFull | null>(null);
     const [isLoading, setLoading] = useState(true);
 
@@ -24,7 +26,7 @@ export default function Layout({params: {antVersion}, children}: {children: Reac
     if (isLoading) return (<LoadingSpinner/>);
     return (
         <DocumentationContext.Provider value={documentation}>
-            {children}
+            {props.children}
         </DocumentationContext.Provider>
     );
 }

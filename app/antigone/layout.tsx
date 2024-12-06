@@ -1,10 +1,9 @@
 import React from "react";
-import {Metadata} from "next";
+import {Metadata, Viewport} from "next";
 
 const title = "Documentation - Antigone";
 export const metadata: Metadata = {
     title,
-    themeColor: "#0296ff",
     twitter: {card: "summary"},
     openGraph: {
         title,
@@ -13,7 +12,9 @@ export const metadata: Metadata = {
         description: "View documentation for the Antigone, a MagicSpells addon.",
         images: "https://files.jasperlorelai.eu/projects/images/antigone.png"
     }
-}
+};
+
+export const viewport: Viewport = {themeColor: "#0296ff"};
 
 export default function Layout({children}: {children: React.ReactNode}) {
     return (<>

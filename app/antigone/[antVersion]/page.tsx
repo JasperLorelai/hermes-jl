@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 
-import {useContext} from "react";
+import {useContext, use} from "react";
 
 import {ParamsAntigoneVersion} from "./Params";
 import DocumentationContext from "./DocumentationContext";
 
-export default function Page({params: {antVersion}}: ParamsAntigoneVersion) {
+export default function Page(props: ParamsAntigoneVersion) {
+    const {antVersion} = use(props.params);
     const documentation = useContext(DocumentationContext);
 
     return (<>

@@ -1,11 +1,8 @@
-/**
- * @type import("next").NextConfig
- */
-const nextConfig = {
+import {NextConfig} from "next";
+
+const nextConfig: NextConfig = {
   reactStrictMode: false,
-  swcMinify: true,
   experimental: {
-    instrumentationHook: true
   },
   async headers() {
     return [
@@ -38,4 +35,4 @@ const nextConfig = {
   }
 };
 
-module.exports = nextConfig
+export default nextConfig;
