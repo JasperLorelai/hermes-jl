@@ -2,6 +2,7 @@ import {Metadata, Viewport} from "next";
 
 import {PrimaryBadge, SecondaryBadge} from "./Badge";
 import SoundboardDownloads from "./SoundboardDownloads";
+import Navbar from "../../components/Navbar";
 
 const title = "Minecraft Soundboard";
 export const metadata: Metadata = {
@@ -20,27 +21,11 @@ export const viewport: Viewport = {themeColor: "#ff7a21"};
 export default function Page() {
     return (
         <>
-            <nav className="navbar navbar-expand-lg bg-primary">
-                <div className="container-fluid">
-                    <a className="navbar-brand" href="https://jasperlorelai.eu/soundboard">Soundboard</a>
-                    <button className="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                        <span className="navbar-toggler-icon" />
-                    </button>
-                    <div className="navbar-collapse collapse" id="navbarNav">
-                        <ul className="navbar-nav">
-                            <li className="nav-item" key="repository">
-                                <a className="nav-link" target="_blank" href="https://github.com/JasperLorelai/minecraft-soundboard">Project Repository</a>
-                            </li>
-                            <li className="nav-item" key="ms_repository">
-                                <a className="nav-link" target="_blank" href="https://github.com/TheComputerGeek2/MagicSpells">MagicSpells Repository</a>
-                            </li>
-                            <li className="nav-item" key="effectlib">
-                                <a className="nav-link" target="_blank" href="https://dev.bukkit.org/projects/effectlib">EffectLib Plugin</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+            <Navbar brand={{text: "Soundboard", url: "/soundboard"}} items={[
+                {key: "repository", text: "Project Repository", url: "https://github.com/JasperLorelai/minecraft-soundboard", target: "_blank"},
+                {key: "ms_repository", text: "MagicSpells Repository", url: "https://github.com/TheComputerGeek2/MagicSpells", target: "_blank"},
+                {key: "effectlib", text: "EffectLib Plugin", url: "https://dev.bukkit.org/projects/effectlib", target: "_blank"},
+            ]} />
 
             <div className="container lh-lg py-sm-5">
                 <h1>How to set up:</h1>

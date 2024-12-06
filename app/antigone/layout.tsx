@@ -1,5 +1,6 @@
 import React from "react";
 import {Metadata, Viewport} from "next";
+import Navbar from "../../components/Navbar";
 
 const title = "Documentation - Antigone";
 export const metadata: Metadata = {
@@ -18,27 +19,11 @@ export const viewport: Viewport = {themeColor: "#0296ff"};
 
 export default function Layout({children}: {children: React.ReactNode}) {
     return (<>
-        <nav className="navbar navbar-expand-lg bg-primary">
-            <div className="container-fluid">
-                <a className="navbar-brand" href="https://jasperlorelai.eu/antigone">Antigone</a>
-                <button className="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span className="navbar-toggler-icon" />
-                </button>
-                <div className="navbar-collapse collapse" id="navbarNav">
-                    <ul className="navbar-nav">
-                        <li className="nav-item" key="repository">
-                            <a className="nav-link" target="_blank" href="https://github.com/JasperLorelai/Antigone">Project Repository</a>
-                        </li>
-                        <li className="nav-item" key="ms_repository">
-                            <a className="nav-link" target="_blank" href="https://github.com/TheComputerGeek2/MagicSpells">MagicSpells Repository</a>
-                        </li>
-                        <li className="nav-item" key="download">
-                            <a className="nav-link text-white fw-bold" target="_blank" href="https://github.com/JasperLorelai/Antigone/releases">Download</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <Navbar brand={{text: "Antigone", url: "/antigone"}} items={[
+            {key: "repository", text: "Project Repository", url: "https://github.com/JasperLorelai/Antigone", target: "_blank"},
+            {key: "ms_repository", text: "MagicSpells Repository", url: "https://github.com/TheComputerGeek2/MagicSpells", target: "_blank"},
+            {key: "download", text: "Download", url: "https://github.com/JasperLorelai/Antigone/releases", target: "_blank"}
+        ]} />
 
         <div className="container lh-lg pt-sm-5">
             <h1 className="text-primary">Introduction:</h1>
