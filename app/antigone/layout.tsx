@@ -1,6 +1,7 @@
 import React from "react";
 import {Metadata, Viewport} from "next";
-import Navbar from "../../components/Navbar";
+
+import Navbar from "@/components/Navbar";
 
 const title = "Documentation - Antigone";
 export const metadata: Metadata = {
@@ -19,10 +20,10 @@ export const viewport: Viewport = {themeColor: "#0296ff"};
 
 export default function Layout({children}: {children: React.ReactNode}) {
     return (<>
-        <Navbar brand={{text: "Antigone", url: "/antigone"}} items={[
-            {key: "repository", text: "Project Repository", url: "https://github.com/JasperLorelai/Antigone", target: "_blank"},
-            {key: "ms_repository", text: "MagicSpells Repository", url: "https://github.com/TheComputerGeek2/MagicSpells", target: "_blank"},
-            {key: "download", text: "Download", url: "https://github.com/JasperLorelai/Antigone/releases", target: "_blank"}
+        <Navbar brand={{text: "Antigone", url: "/antigone"}} links={[
+            {text: "Project Repository", url: "https://github.com/JasperLorelai/Antigone", target: "_blank"},
+            {text: "MagicSpells Repository", url: "https://github.com/TheComputerGeek2/MagicSpells", target: "_blank"},
+            {text: "Download", url: "https://github.com/JasperLorelai/Antigone/releases", target: "_blank"}
         ]} />
 
         <div className="container lh-lg pt-sm-5">

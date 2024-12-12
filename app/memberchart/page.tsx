@@ -2,7 +2,7 @@ import {Metadata, Viewport} from "next";
 
 import ChartRenderer from "./ChartRenderer";
 
-import {Keyv} from "../../handles/Keyv";
+import {Keyv} from "@/handles/Keyv";
 
 const title = "Member Traffic Chart";
 export const metadata: Metadata = {

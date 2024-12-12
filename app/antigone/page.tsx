@@ -3,7 +3,7 @@
 import Link from "next/link";
 import React, {useEffect, useState} from "react";
 
-import LoadingSpinner from "../../components/LoadingSpinner";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function Page() {
     const [data, setData] = useState(<></>);

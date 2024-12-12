@@ -1,35 +1,30 @@
 import Link from "next/link";
-import {HTMLAttributeAnchorTarget} from "react";
+import React, {HTMLAttributeAnchorTarget} from "react";
 
-type Brand = {
+interface Link {
     url: string;
     text: string;
-};
+    target?: HTMLAttributeAnchorTarget;
+}
 
-type NavItem = {
-    key: string;
-    url: string;
-    text: string;
-    target: HTMLAttributeAnchorTarget | undefined;
-};
-
-export default function Navbar({brand, items}: {brand: Brand, items?: NavItem[]}) {
+export default function Navbar({brand, links, children}: {brand: Link | string, links?: Link[], children?: React.ReactNode}) {
     return (
-        <nav className="navbar navbar-expand-lg bg-primary">
+        <nav className="navbar navbar-expand-lg bg-primary bg-gradient bg-opacity-75 nav-underline">
             <div className="container-fluid">
-                {link(brand.url, brand.text)}
-                {items?.length ?
+                <div className="navbar-brand">{typeof brand === "string" ? brand : item(brand)}</div>
+                {links?.length || children ?
                     <>
-                        <button className="navbar-toggler collapsed" data-bs-toggle="collapse"
-                                data-bs-target="#navbarNav">
+                        <button className="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                             <span className="navbar-toggler-icon"/>
                         </button>
-                        <div className="navbar-collapse collapse" id="navbarNav">
-                            <ul className="navbar-nav">
-                                {items.map(item => (
-                                    <li className="nav-item" key={item.key}>{link(item.url, item.text, item.target)}</li>
-                                ))}
-                            </ul>
+                        <div className="navbar-collapse collapse justify-content-between" id="navbarNav">
+                            {links?.length ?
+                                <ul className="navbar-nav gap-3">
+                                    {links.map((link, i) => navItem(item(link), "nav-item-" + i))}
+                                </ul> :
+                                <></>
+                            }
+                            {children ? <ul className="navbar-nav gap-3">{navItems(children)}</ul> : <></>}
                         </div>
                     </> :
                     <></>
@@ -39,8 +34,23 @@ export default function Navbar({brand, items}: {brand: Brand, items?: NavItem[]}
     );
 }
 
-function link(url: string, text: string, target: HTMLAttributeAnchorTarget = "_self") {
+function navItems(node: React.ReactNode) {
+    return Symbol.iterator in Object(node) ?
+        // @ts-ignore
+        [...node].map((item, i) => navItem(item, "nav-item-" + i)) :
+        navItem(node, "nav-item");
+}
+
+function navItem(child: React.ReactNode, key: string) {
+    return (<li className="nav-item align-content-center" key={key}>{child}</li>)
+}
+
+function item(link: Link | string) {
+    if (typeof link === "string") return link;
+
+    const {url, text} = link;
+    const target = link.target || "_self";
     return url.startsWith("/") ?
-        <Link className="nav-link" target={target} href={url} prefetch={true}>{text}</Link> :
+        <Link className="nav-link" target={link.target} href={url} prefetch={true}>{text}</Link> :
         <a className="nav-link" target={target} href={url}>{text}</a>
 }

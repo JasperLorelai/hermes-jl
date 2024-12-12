@@ -4,8 +4,8 @@ import React, {useEffect, useState, use} from "react";
 
 import {ParamsAntigoneVersion} from "./Params";
 import {DocumentationFull} from "./Documentation";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import DocumentationContext from "./DocumentationContext";
-import LoadingSpinner from "../../../components/LoadingSpinner";
 
 export default function Layout(props: {children: React.ReactNode} & ParamsAntigoneVersion) {
     const {antVersion} = use(props.params);

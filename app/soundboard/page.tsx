@@ -1,8 +1,8 @@
 import {Metadata, Viewport} from "next";
 
+import Navbar from "@/components/Navbar";
 import {PrimaryBadge, SecondaryBadge} from "./Badge";
 import SoundboardDownloads from "./SoundboardDownloads";
-import Navbar from "../../components/Navbar";
 
 const title = "Minecraft Soundboard";
 export const metadata: Metadata = {
@@ -21,14 +21,14 @@ export const viewport: Viewport = {themeColor: "#ff7a21"};
 export default function Page() {
     return (
         <>
-            <Navbar brand={{text: "Soundboard", url: "/soundboard"}} items={[
-                {key: "repository", text: "Project Repository", url: "https://github.com/JasperLorelai/minecraft-soundboard", target: "_blank"},
-                {key: "ms_repository", text: "MagicSpells Repository", url: "https://github.com/TheComputerGeek2/MagicSpells", target: "_blank"},
-                {key: "effectlib", text: "EffectLib Plugin", url: "https://dev.bukkit.org/projects/effectlib", target: "_blank"},
+            <Navbar brand={{text: "Soundboard", url: "/soundboard"}} links={[
+                {text: "Project Repository", url: "https://github.com/JasperLorelai/minecraft-soundboard", target: "_blank"},
+                {text: "MagicSpells Repository", url: "https://github.com/TheComputerGeek2/MagicSpells", target: "_blank"},
+                {text: "EffectLib Plugin", url: "https://dev.bukkit.org/projects/effectlib", target: "_blank"},
             ]} />
 
             <div className="container lh-lg py-sm-5">
-                <h1>How to set up:</h1>
+                <h1 className="text-primary">How to set up:</h1>
                 <hr/>
                 <p>
                     This configuration file requires the plugin MagicSpells to run. Note that the <PrimaryBadge

@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 
-import {handleAuthorisation} from "../../handles/Authorisation";
+import {handleAuthorisation} from "@/handles/Authorisation";
 
 export async function GET(request: NextRequest) {
     const authorisationData = handleAuthorisation(request);

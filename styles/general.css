@@ -12,14 +12,6 @@ code {
     font-size: 105%;
 }
 
-.custom-modal-header-color {
-    --bs-modal-header-border-color: var(--bs-gray-700);
-}
-
-.custom-modal-footer-color {
-    --bs-modal-footer-border-color: var(--bs-gray-700);
-}
-
 .cm-scroller {
     overflow-y: scroll;
 }

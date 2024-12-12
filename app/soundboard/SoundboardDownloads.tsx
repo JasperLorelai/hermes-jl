@@ -10,7 +10,7 @@ import addClasses from "rehype-add-classes";
 import rehypeStringify from "rehype-stringify";
 
 import {PrimaryBadge} from "./Badge";
-import LoadingSpinner from "../../components/LoadingSpinner";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 interface Asset {
     download_count: number,
@@ -70,7 +70,7 @@ export default function SoundboardDownloads() {
 
                 setData(
                     <>
-                        <h1>Downloads <i>({totalDownloads}):</i></h1>
+                        <h1 className="text-primary">Downloads <i>({totalDownloads}):</i></h1>
                         <hr/>
                         <select className="form-select form-select-lg mb-3 text-center w-25" defaultValue={0}
                                 onChange={e => {
@@ -87,8 +87,7 @@ export default function SoundboardDownloads() {
                 );
                 setLoading(false);
             })
-            .catch(e => {
-                console.log(e);
+            .catch(_ => {
                 setData(
                     <>
                         <h1>Downloads:</h1>

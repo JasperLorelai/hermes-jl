@@ -18,6 +18,17 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "paths": {
+      "@/components/*": [
+        "./components/*"
+      ],
+      "@/handles/*": [
+        "./handles/*"
+      ],
+      "@/styles/*": [
+        "./styles/*"
+      ]
+    },
     "plugins": [
       {
         "name": "next"
