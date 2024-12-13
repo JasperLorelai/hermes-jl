@@ -2,5 +2,7 @@ import {Usable} from "react";
 
 type Params<T> = {params: Usable<T>};
 
-export type ParamsAntigoneVersion = Params<{antVersion: string}>;
-export type ParamsMinecraftVersion = Params<{mcVersion: string}>;
+type Antigone = {antVersion: string};
+type Minecraft = {mcVersion: string};
+export type ParamsAntigoneVersion = Params<Antigone>;
+export type ParamsMinecraftVersion = Params<Antigone & Minecraft>;

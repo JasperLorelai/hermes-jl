@@ -8,11 +8,11 @@ type GoalData = {
     }[]
 };
 
+export type Goals = Record<string, GoalData>;
+
 export type Documentation = {
     LivingEntityClass: string[],
-    goals: {
-        [key: string]: GoalData
-    }
+    goals: Goals
 };
 
 export type DocumentationFull = {[key: string]: Documentation};

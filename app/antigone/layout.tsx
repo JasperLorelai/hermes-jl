@@ -34,10 +34,8 @@ export default function Layout({children}: {children: React.ReactNode}) {
                                  target="_blank">MagicSpells</a> plugin
                 addon intended to provide Vanilla Mob Goals into <a
                 href="https://github.com/TheComputerGeek2/MagicSpells/wiki/Mob-Goal-Edit-Spell"
-                target="_blank">MagicSpells&apos; Mob Goal Edit Spell</a>. Note all values are required unless they have
-                a default value. All values
-                support <a href="https://github.com/TheComputerGeek2/MagicSpells/wiki/Expression"
-                           target="_blank">expressions</a> except for
+                target="_blank">MagicSpells&apos; Mob Goal Edit Spell</a>. All values
+                support <a href="https://github.com/TheComputerGeek2/MagicSpells/wiki/Expression" target="_blank">expressions</a> except for
                 Modifier lists.
             </p>
 
