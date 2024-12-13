@@ -3,8 +3,8 @@
 import React, {useContext, use} from "react";
 
 import Goals from "./Goals";
-import {ParamsMinecraftVersion} from "../Params";
 import PaneSelector from "./PaneSelector";
+import {ParamsMinecraftVersion} from "../Params";
 import DocumentationContext from "../DocumentationContext";
 import LivingEntityClassValues from "./LivingEntityClassValues";
 
@@ -24,7 +24,7 @@ export default function Page(props: ParamsMinecraftVersion) {
             <div>Minecraft Version: <span className="text-primary fw-bold">{mcVersion}</span></div>
             <hr/>
             <PaneSelector antVersion={antVersion} mcVersion={mcVersion} hash={hash} panes={[
-                {id: "goals", name: "Goals", content: <Goals hash={hash} goals={goals}/>},
+                {id: "goals", name: "Goals", content: <Goals antVersion={antVersion} mcVersion={mcVersion} hash={hash} goals={goals}/>},
                 {id: "LivingEntityClass", name: "LivingEntityClass", content: <LivingEntityClassValues entities={LivingEntityClass}/>},
             ]}/>
             <hr/>

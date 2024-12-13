@@ -8,6 +8,7 @@ import yaml from "react-syntax-highlighter/dist/esm/languages/hljs/yaml";
 SyntaxHighlighter.registerLanguage("yaml", yaml);
 
 import {Goals} from "../Documentation";
+import DocumentationFixes from "./DocumentationFixes";
 
 const baseURL = "https://jasperlorelai.eu/antigone";
 function resolveMarkdownLinks(string: string) {
@@ -132,7 +133,8 @@ function search(goals: Goals, selected: string | null, term: string): SearchResu
     };
 }
 
-export default function Goals({hash, goals}: {hash: string, goals: Goals}) {
+export default function Goals({antVersion, mcVersion, hash, goals}: {antVersion: string, mcVersion: string, hash: string, goals: Goals}) {
+    goals = DocumentationFixes.initialFilter(antVersion, mcVersion, goals);
     const selected = goals.hasOwnProperty(hash) ? hash : null;
     const [found, setFound] = useState(search(goals, selected, ""));
 
