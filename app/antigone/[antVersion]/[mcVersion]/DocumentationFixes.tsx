@@ -1,6 +1,6 @@
 import SemVer from "semver";
 
-import {Goals} from "../Documentation";
+import {GoalData, Goals} from "../Documentation";
 
 export default class DocumentationFixes {
 
@@ -8,28 +8,44 @@ export default class DocumentationFixes {
     private constructor() {}
 
     public static initialFilter(antVersion: string, mcVersion: string, goals: Goals) {
-        mcVersion = SemVer.coerce(mcVersion.replace(/_/g, "."))?.toString() || "";
         let newGoals: Goals = goals;
 
         switch (true) {
             case SemVer.lt(antVersion, "1.0.1"): {
-                newGoals = {};
-                for (const [key, data] of Object.entries(goals)) {
-                    if (pre1_0_1Broken.includes(key)) continue;
-
+                newGoals = this.remap(newGoals, (key, data) => {
+                    if (pre1_0_1Broken.includes(key)) return null;
                     data.parameters = data.parameters.map(parameter => {
                         if (parameter.default?.includes("\n")) {
                             parameter.default = `[${parameter.default.replace("\n", ", ")}]`;
                         }
                         return parameter;
                     });
-
-                    newGoals[key] = data;
-                }
+                    return data;
+                });
+                break;
+            }
+            case SemVer.satisfies(antVersion, "1.1.0 - 1.3.0") && SemVer.gt(mcVersion, "1.20.6"): {
+                newGoals = this.remap(newGoals, (key, data) => {
+                    if (!range1_1_0_to_1_3_0Broken.includes(key)) return data;
+                    data.bugs ??= [];
+                    data.bugs.push(<span>In this version of Antigone this goal only works in <span className="text-primary">1.20.6</span>. This bug has been fixed in Antigone <span className="text-primary">v1.4.0</span>.</span>);
+                    return data;
+                });
+                break;
             }
         }
 
         return newGoals;
+    }
+
+    private static remap(goals: Goals, remap: (key: string, data: GoalData) => GoalData | null) {
+        const temp: Goals = {};
+        for (const [key, data] of Object.entries(goals)) {
+            const newData = remap(key, data);
+            if (!newData) continue;
+            temp[key] = newData;
+        }
+        return temp;
     }
 
 }
@@ -147,4 +163,12 @@ const pre1_0_1Broken = [
     "antigone_panda_hurt_by_target",
     "antigone_panda_lie_on_back",
     "antigone_bee_locate_hive"
+];
+
+const range1_1_0_to_1_3_0Broken = [
+    "antigone_cat_tempt",
+    "antigone_ocelot_tempt",
+    "antigone_remove_block",
+    "antigone_tempt",
+    "antigone_use_item"
 ];

@@ -1,6 +1,9 @@
+import {ReactNode} from "react";
+
 type GoalData = {
     target: string,
     extends?: string,
+    bugs?: ReactNode[],
     parameters: {
         type: string,
         name?: string,

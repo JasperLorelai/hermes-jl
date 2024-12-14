@@ -10,7 +10,7 @@ function active(hash: string, isHashPane: boolean, index: number, anchor: string
     return (isHashPane ? hash === anchor : index === 0) ? " " + activeClasses : "";
 }
 
-export default function PaneSelector({antVersion, mcVersion, hash, panes}: {antVersion: string, mcVersion: string, hash: string, panes: Pane[]}) {
+export default function PaneSelector({hash, panes}: {hash: string, panes: Pane[]}) {
     panes = panes.filter(pane => pane.content);
     const isHashPane = panes.some(p => p.id === hash);
 

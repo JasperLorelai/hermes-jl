@@ -2,8 +2,8 @@ import React, {ReactNode, useEffect, useState} from "react";
 
 import {Light as SyntaxHighlighter} from "react-syntax-highlighter";
 
-import {stackoverflowDark} from "react-syntax-highlighter/dist/esm/styles/hljs";
 import yaml from "react-syntax-highlighter/dist/esm/languages/hljs/yaml";
+import {stackoverflowDark} from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 SyntaxHighlighter.registerLanguage("yaml", yaml);
 
@@ -61,6 +61,16 @@ function search(goals: Goals, selected: string | null, term: string): SearchResu
                     <i className="bi bi-hash"></i>
                     <span className="text-primary">{goalKey}</span>:
                 </a>
+                {goalData.bugs ?
+                    goalData.bugs.map((bug, i) => {
+                        return (
+                            <div className="alert alert-danger my-3" role="alert" key={"bug-" + i}>
+                                <i className="bi bi-exclamation-triangle"></i> {bug}
+                            </div>
+                        );
+                    }) :
+                    ""
+                }
                 <ul>
                     <li><b>Valid target:</b> <code dangerouslySetInnerHTML={{__html: resolveMarkdownLinks(goalData.target)}}></code>
                     </li>

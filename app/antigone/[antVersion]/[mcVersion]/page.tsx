@@ -2,6 +2,8 @@
 
 import React, {useContext, use} from "react";
 
+import SemVer from "semver";
+
 import Goals from "./Goals";
 import PaneSelector from "./PaneSelector";
 import {ParamsMinecraftVersion} from "../Params";
@@ -9,13 +11,14 @@ import DocumentationContext from "../DocumentationContext";
 import LivingEntityClassValues from "./LivingEntityClassValues";
 
 export default function Page(props: ParamsMinecraftVersion) {
-    const {antVersion, mcVersion} = use(props.params);
+    let {antVersion, mcVersion} = use(props.params);
 
     const hash = window.location.hash.substring(1);
     const documentation = useContext(DocumentationContext)?.[mcVersion];
     if (!documentation) return (<div className="text-danger">Could not load version data.</div>);
     const {goals, LivingEntityClass} = documentation;
 
+    mcVersion = SemVer.coerce(mcVersion.replace(/_/g, "."))?.toString() || "";
     return (
         <>
             <h1 className="text-primary">Selected Version:</h1>
@@ -23,7 +26,7 @@ export default function Page(props: ParamsMinecraftVersion) {
             <div>Antigone Version: <span className="text-primary fw-bold">{antVersion}</span></div>
             <div>Minecraft Version: <span className="text-primary fw-bold">{mcVersion}</span></div>
             <hr/>
-            <PaneSelector antVersion={antVersion} mcVersion={mcVersion} hash={hash} panes={[
+            <PaneSelector hash={hash} panes={[
                 {id: "goals", name: "Goals", content: <Goals antVersion={antVersion} mcVersion={mcVersion} hash={hash} goals={goals}/>},
                 {id: "LivingEntityClass", name: "LivingEntityClass", content: <LivingEntityClassValues entities={LivingEntityClass}/>},
             ]}/>
