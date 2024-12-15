@@ -6,9 +6,9 @@ import {cacheLife} from "next/dist/server/use-cache/cache-life";
 
 import * as cheerio from "cheerio";
 
-import Table from "./Table";
 import ClassUse from "./ClassUse";
 import VersionList from "./VersionList";
+import JavadocTable from "./JavadocTable";
 import SupportedVersions from "./SupportedVersions";
 
 export default async function Page(props: {params: Promise<{version: string, path: string[]}>}) {
@@ -29,8 +29,8 @@ export default async function Page(props: {params: Promise<{version: string, pat
     const fieldSummary = $("#field-summary > div.summary-table").first();
 
     switch (true) {
-        case enumSummary.length != 0: return (<Table $={$} summary={enumSummary} />);
-        case fieldSummary.length != 0: return (<Table $={$} summary={fieldSummary} />);
+        case enumSummary.length != 0: return (<JavadocTable $={$} summary={enumSummary} />);
+        case fieldSummary.length != 0: return (<JavadocTable $={$} summary={fieldSummary} />);
         case path[path.length - 2] === "class-use": return (<ClassUse body={body} url={url} />);
         case true: redirect(url);
     }

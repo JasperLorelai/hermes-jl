@@ -1,5 +1,6 @@
 import React, {ReactNode, useEffect, useState} from "react";
 
+import Table from "@/components/Table";
 import CodeBlock, {line} from "@/components/CodeBlock";
 
 import {Goals} from "../Documentation";
@@ -75,32 +76,26 @@ function search(goals: Goals, selected: string | null, term: string): SearchResu
                     {goalData.parameters.length ? <li><b>Configuration:</b></li> : <></>}
                 </ul>
                 {goalData.parameters.length ? <>
-                    <div className="card rounded-4 overflow-hidden my-3">
-                        <table
-                            className="table table-hover table-striped table-bordered text-center w-auto my-0">
-                            <thead>
-                            <tr>
-                                <th scope="col"><b>Option</b></th>
-                                <th scope="col"><b>Type</b></th>
-                                {hasDefaults ? <th scope="col"><b>Default</b></th> : <></>}
-                                {hasDefaults ? <th scope="col"><b>Required</b></th> : <></>}
+                    <Table thead={
+                        <tr>
+                            <th scope="col"><b>Option</b></th>
+                            <th scope="col"><b>Type</b></th>
+                            {hasDefaults ? <th scope="col"><b>Default</b></th> : <></>}
+                            {hasDefaults ? <th scope="col"><b>Required</b></th> : <></>}
+                        </tr>
+                    } tbody={
+                        goalData.parameters.map((parameter, i) =>
+                            <tr key={parameter.name + "-" + i}>
+                                <td><code className="small">{parameter.name}</code></td>
+                                <td dangerouslySetInnerHTML={{__html: resolveMarkdownLinks(parameter.type)}}></td>
+                                {hasDefaults ?
+                                    <>
+                                        <td><code>{parameter.default}</code></td>
+                                        <td><code>{parameter.default ? "false" : "true"}</code></td>
+                                    </> : <></>}
                             </tr>
-                            </thead>
-                            <tbody className="table-group-divider">
-                            {goalData.parameters.map((parameter, i) =>
-                                <tr key={parameter.name + "-" + i}>
-                                    <td><code className="small">{parameter.name}</code></td>
-                                    <td dangerouslySetInnerHTML={{__html: resolveMarkdownLinks(parameter.type)}}></td>
-                                    {hasDefaults ?
-                                        <>
-                                            <td><code>{parameter.default}</code></td>
-                                            <td><code>{parameter.default ? "false" : "true"}</code></td>
-                                        </> : <></>}
-                                </tr>
-                            )}
-                            </tbody>
-                        </table>
-                    </div>
+                        )
+                    } />
                 </> : <></>}
                 <CodeBlock language="yaml" code={
                     line(0, `spell:`) +

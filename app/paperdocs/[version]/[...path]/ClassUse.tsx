@@ -6,7 +6,7 @@ import React, {useEffect, useState} from "react";
 
 import * as cheerio from "cheerio";
 
-import Table from "./Table";
+import JavadocTable from "./JavadocTable";
 
 export default function ClassUse({body, url}: {body: string, url: string}) {
     const [hash, setHash] = useState("");
@@ -32,5 +32,5 @@ export default function ClassUse({body, url}: {body: string, url: string}) {
     );
 
     if (!classUseSummary.length) redirect(url);
-    return (<Table $={$} summary={classUseSummary} />);
+    return (<JavadocTable $={$} summary={classUseSummary} />);
 }

@@ -3,7 +3,9 @@ import React from "react";
 import {AnyNode} from "domhandler";
 import {Cheerio, CheerioAPI} from "cheerio";
 
-export default function Table({$, summary} : {$: CheerioAPI, summary: Cheerio<AnyNode>}) {
+import Table from "@/components/Table";
+
+export default function JavadocTable({$, summary} : {$: CheerioAPI, summary: Cheerio<AnyNode>}) {
     const headers: React.JSX.Element[] = [];
     const rows: React.JSX.Element[] = [];
     let buffer: React.JSX.Element[] = [];
@@ -60,12 +62,5 @@ export default function Table({$, summary} : {$: CheerioAPI, summary: Cheerio<An
     });
     rows.push(<tr key="row-last">{buffer}</tr>);
 
-    return (
-        <table className="table table-striped table-hover table-bordered rounded overflow-hidden">
-            <thead>
-                <tr>{headers}</tr>
-            </thead>
-            <tbody>{rows}</tbody>
-        </table>
-    );
+    return (<Table thead={<tr>{headers}</tr>} tbody={rows} />);
 }
