@@ -1,11 +1,6 @@
 import React, {ReactNode, useEffect, useState} from "react";
 
-import {Light as SyntaxHighlighter} from "react-syntax-highlighter";
-
-import yaml from "react-syntax-highlighter/dist/esm/languages/hljs/yaml";
-import {stackoverflowDark} from "react-syntax-highlighter/dist/esm/styles/hljs";
-
-SyntaxHighlighter.registerLanguage("yaml", yaml);
+import CodeBlock, {line} from "@/components/CodeBlock";
 
 import {Goals} from "../Documentation";
 import DocumentationFixes from "./DocumentationFixes";
@@ -37,10 +32,6 @@ function search(goals: Goals, selected: string | null, term: string): SearchResu
         key.substring("antigone_".length).startsWith(term) ||
         key.includes(term)
     );
-
-    function line(num: number, code: string) {
-        return " ".repeat(num) + code + "\n";
-    }
 
     return {
         list: goalEntries.map(([key], i) =>
@@ -111,33 +102,21 @@ function search(goals: Goals, selected: string | null, term: string): SearchResu
                         </table>
                     </div>
                 </> : <></>}
-                <div className="rounded-4 overflow-hidden">
-                    <SyntaxHighlighter language="yaml" style={stackoverflowDark} showLineNumbers={true} customStyle={{margin: "0"}}
-                                       onClick={(event: React.MouseEvent<HTMLPreElement, MouseEvent>) => {
-                        const range = document.createRange();
-                        range.selectNodeContents(event.currentTarget);
-                        const selection = window.getSelection();
-                        if (!selection) return;
-                        selection.removeAllRanges();
-                        selection.addRange(range);
-                    }}>
-                        {
-                            line(0, `spell:`) +
-                            line(4, `spell-class: ".targeted.MobGoalEditSpell"`) +
-                            line(4, `always-granted: true`) +
-                            line(4, `cast-item: stick`) +
-                            line(4, `add:`) +
-                            line(8, `- goal: ${goalKey}`) +
-                            line(10, `priority: 1`) +
-                            (goalData.parameters.length ?
-                                    line(10, `data:`) +
-                                    goalData.parameters.map(parameter =>
-                                        line(14, `${parameter.name}: ${parameter.default || ""}`)).join("")
-                                    : ""
-                            )
-                        }
-                    </SyntaxHighlighter>
-                </div>
+                <CodeBlock language="yaml" code={
+                    line(0, `spell:`) +
+                    line(4, `spell-class: ".targeted.MobGoalEditSpell"`) +
+                    line(4, `always-granted: true`) +
+                    line(4, `cast-item: stick`) +
+                    line(4, `add:`) +
+                    line(8, `- goal: ${goalKey}`) +
+                    line(10, `priority: 1`) +
+                    (goalData.parameters.length ?
+                            line(10, `data:`) +
+                            goalData.parameters.map(parameter =>
+                                line(14, `${parameter.name}: ${parameter.default || ""}`)).join("")
+                            : ""
+                    )
+                } />
             </div>);
         })
     };
