@@ -33,7 +33,7 @@ export default function Layout({children}: {children: React.ReactNode}) {
                 Antigone is a <a href="https://github.com/TheComputerGeek2/MagicSpells/"
                                  target="_blank">MagicSpells</a> plugin
                 addon intended to provide Vanilla Mob Goals into <a
-                href="https://github.com/TheComputerGeek2/MagicSpells/wiki/Mob-Goal-Edit-Spell"
+                href="https://github.com/TheComputerGeek2/MagicSpells/wiki/MobGoalEditSpell"
                 target="_blank">MagicSpells&apos; Mob Goal Edit Spell</a>. All values
                 support <a href="https://github.com/TheComputerGeek2/MagicSpells/wiki/Expression" target="_blank">expressions</a> except for
                 Modifier lists.
