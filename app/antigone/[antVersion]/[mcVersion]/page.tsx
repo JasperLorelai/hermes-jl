@@ -7,6 +7,7 @@ import SemVer from "semver";
 import Goals from "./Goals";
 import PaneSelector from "./PaneSelector";
 import {ParamsMinecraftVersion} from "../Params";
+import PathfindingMalusTab from "./PathfindingMalusTab";
 import DocumentationContext from "../DocumentationContext";
 import LivingEntityClassValues from "./LivingEntityClassValues";
 
@@ -16,7 +17,7 @@ export default function Page(props: ParamsMinecraftVersion) {
     const hash = window.location.hash.substring(1);
     const documentation = useContext(DocumentationContext)?.[mcVersion];
     if (!documentation) return (<div className="text-danger">Could not load version data.</div>);
-    const {goals, LivingEntityClass} = documentation;
+    const {goals, LivingEntityClass, PathfindingMalus} = documentation;
 
     mcVersion = SemVer.coerce(mcVersion.replace(/_/g, "."))?.toString() || "";
     return (
@@ -29,6 +30,7 @@ export default function Page(props: ParamsMinecraftVersion) {
             <PaneSelector hash={hash} panes={[
                 {id: "goals", name: "Goals", content: <Goals antVersion={antVersion} mcVersion={mcVersion} hash={hash} goals={goals}/>},
                 {id: "LivingEntityClass", name: "LivingEntityClass", content: <LivingEntityClassValues entities={LivingEntityClass}/>},
+                {id: "PathfindingMalus", name: "Pathfinding Malus", content: PathfindingMalus ? <PathfindingMalusTab values={PathfindingMalus} /> : null},
             ]}/>
             <hr/>
         </>
