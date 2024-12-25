@@ -10,8 +10,9 @@ function active(hash: string, isHashPane: boolean, index: number, anchor: string
     return (isHashPane ? hash === anchor : index === 0) ? " " + activeClasses : "";
 }
 
-export default function PaneSelector({hash, panes}: {hash: string, panes: Pane[]}) {
+export default function PaneSelector({panes}: {panes: Pane[]}) {
     panes = panes.filter(pane => pane.content);
+    const hash = window.location.hash.substring(1);
     const isHashPane = panes.some(p => p.id === hash);
 
     useEffect(() => {

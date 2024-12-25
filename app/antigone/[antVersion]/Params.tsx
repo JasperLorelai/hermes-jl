@@ -1,6 +1,4 @@
-import {Usable} from "react";
-
-type Params<T> = {params: Usable<T>};
+type Params<T> = {params: Promise<T>};
 
 type Antigone = {antVersion: string};
 type Minecraft = {mcVersion: string};

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {Metadata} from "next";
+import {connection} from "next/server";
 
 import fs from "fs";
 
@@ -9,11 +10,9 @@ import {ParamsVersionType} from "./[version]/MCVersionParams";
 const versionDataPath = "./public/mcVersionData.json";
 
 export async function generateMetadata(props: ParamsVersionType): Promise<Metadata> {
-    const params = await props.params;
+    await connection();
 
-    const {
-        versionType
-    } = params;
+    const {versionType} = await props.params;
 
     const old = Object.assign({}, oldMetadata);
     if (old.openGraph) old.openGraph.url = "/howoldis/mc/" + versionType;

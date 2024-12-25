@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-
 import {useContext, use} from "react";
 
 import {ParamsAntigoneVersion} from "./Params";

@@ -117,8 +117,9 @@ function search(goals: Goals, selected: string | null, term: string): SearchResu
     };
 }
 
-export default function Goals({antVersion, mcVersion, hash, goals}: {antVersion: string, mcVersion: string, hash: string, goals: Goals}) {
+export default function GoalsTab({antVersion, mcVersion, goals}: {antVersion: string, mcVersion: string, goals: Goals}) {
     goals = DocumentationFixes.initialFilter(antVersion, mcVersion, goals);
+    const hash = window.location.hash.substring(1);
     const selected = goals.hasOwnProperty(hash) ? hash : null;
     const [found, setFound] = useState(search(goals, selected, ""));
 

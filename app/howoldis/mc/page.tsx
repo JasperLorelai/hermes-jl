@@ -35,7 +35,7 @@ export default async function Page() {
             <h1>How old is Minecraft?</h1>
             <div className="list-group col-5 mx-auto d-grid py-3">
                 {versionTypes.map(type =>
-                    <Link key={type} className="list-group-item list-group-item-action"  href={`/howoldis/mc/${type}`} prefetch={true}>
+                    <Link key={type} className="list-group-item list-group-item-action" href={`/howoldis/mc/${type}`} prefetch={true}>
                         {type.split("_")
                             .map(w => w.charAt(0).toUpperCase() + w.substring(1).toLowerCase())
                             .join(" ")}

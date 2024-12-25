@@ -1,9 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import {Metadata} from "next";
+import {connection} from "next/server";
 
 import fs from "fs";
-
 import {Seconds} from "seconds-util";
 
 import {ParamsVersion} from "./MCVersionParams";
@@ -24,11 +24,10 @@ function getReleaseDate(versionType: string, version: string) {
     return new Date(releaseTime);
 }
 
-export async function generateMetadata(paramsAsync: ParamsVersion): Promise<Metadata> {
-    const params = await paramsAsync.params;
-    const oldMetadata = Object.assign({}, await generateOldMetadata(paramsAsync));
-    if (!oldMetadata) return {};
-    const {versionType, version} = params;
+export async function generateMetadata(params: ParamsVersion): Promise<Metadata> {
+    const {versionType, version} = await params.params;
+    const oldMetadata = Object.assign({}, await generateOldMetadata(params));
+
     const title = `How old is MC ${version}?`;
     oldMetadata.title = title;
     const releaseDate = getReleaseDate(versionType, version);
@@ -37,10 +36,13 @@ export async function generateMetadata(paramsAsync: ParamsVersion): Promise<Meta
         oldMetadata.openGraph.url = `/howoldis/mc/${versionType}/${version}`;
         oldMetadata.openGraph.description = releaseDate.toUTCString() + " - " + getAge(releaseDate);
     }
+
     return oldMetadata;
 }
 
 export default async function Page(props: ParamsVersion) {
+    await connection();
+
     const {versionType, version} = await props.params;
     const releaseDate = getReleaseDate(versionType, version);
     return (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Suspense} from "react";
 import {Metadata, Viewport} from "next";
 import localFont from "next/font/local";
 
@@ -10,6 +10,8 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 const font = localFont({src: "../public/Monocraft-no-ligatures.ttf", weight: "300"});
 
 import "../styles/general.css";
+
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export const metadata: Metadata = {
     metadataBase: new URL(process.env.NODE_ENV === "development" ?
@@ -39,7 +41,11 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
                 <title>Jasper Lorelai&apos;s website</title>
             </head>
             <body className={"h-100 cm-scroller text-light bg-black " + font.className}>
-                <main>{children}</main>
+                <main>
+                    <Suspense fallback={<LoadingSpinner/>}>
+                        {children}
+                    </Suspense>
+                </main>
             </body>
         </html>
     );
