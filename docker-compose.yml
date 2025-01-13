@@ -1,0 +1,10 @@
+services:
+  hermes-jl:
+    build: .
+    network_mode: bridge
+    image: hermes-jl
+    expose: [3000]
+    ports: ["3000:3000"]
+    env_file: [.env.local]
+    command: npm run prod
+    restart: unless-stopped

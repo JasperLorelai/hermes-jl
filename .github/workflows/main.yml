@@ -4,38 +4,20 @@ on:
   workflow_dispatch:
 name: 🚀 Deploy
 jobs:
-  web-deploy:
+  deploy:
     name: 🚀 Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: 🚚 Get latest code
-        uses: actions/checkout@v2
-
-      - name: 🛑 Stop pm2
-        uses: D3rHase/ssh-command-action@v0.2.2
+      - name: 🧱 Restart
+        uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.URL }}
-          user: ${{ secrets.USER }}
-          private_key: ${{ secrets.KEY }}
-          command: |
-            cd ../home/jlorelai/jasperlorelai.eu;
-            pm2 stop main.config.js;
-
-      - name: 📂 Sync Files
-        uses: SamKirkland/web-deploy@v1
-        with:
-          target-server: ${{ secrets.URL }}
-          remote-user: ${{ secrets.USER }}
-          private-ssh-key: ${{ secrets.KEY }}
-          destination-path: ../home/jlorelai/jasperlorelai.eu/hermes
-
-      - name: 🟢 Start pm2
-        uses: D3rHase/ssh-command-action@v0.2.2
-        with:
-          host: ${{ secrets.URL }}
-          user: ${{ secrets.USER }}
-          private_key: ${{ secrets.KEY }}
-          command: |
-            cd ../home/jlorelai/jasperlorelai.eu;
-            chown --recursive root hermes;
-            pm2 start main.config.js;
+          host: ${{secrets.URL}}
+          username: ${{secrets.USER}}
+          key: ${{secrets.KEY}}
+          script: |
+            cd ~/jasperlorelai.eu/hermes-jl
+            docker compose down
+            git fetch origin
+            git reset --hard origin/main
+            cp -n ../.env.local .
+            screen -S build -d -m bash -c 'docker compose up --build -d'
