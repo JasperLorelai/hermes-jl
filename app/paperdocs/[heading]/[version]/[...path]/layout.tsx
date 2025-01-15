@@ -28,7 +28,9 @@ export default async function Layout({children, params}: {children: React.ReactN
             <div className="d-flex flex-grow-1 justify-content-center align-items-center">
                 <div>
                     <div className="container lh-lg py-sm-5">
-                        {children}
+                        <Suspense fallback={<LoadingSpinner/>}>
+                            {children}
+                        </Suspense>
                     </div>
                 </div>
             </div>
