@@ -4,7 +4,6 @@ import Table from "@/components/Table";
 import CodeBlock, {line} from "@/components/CodeBlock";
 
 import {Goals} from "../Documentation";
-import DocumentationFixes from "./DocumentationFixes";
 
 const baseURL = "https://jasperlorelai.eu/antigone";
 function resolveMarkdownLinks(string: string) {
@@ -117,8 +116,7 @@ function search(goals: Goals, selected: string | null, term: string): SearchResu
     };
 }
 
-export default function GoalsTab({antVersion, mcVersion, goals}: {antVersion: string, mcVersion: string, goals: Goals}) {
-    goals = DocumentationFixes.initialFilter(antVersion, mcVersion, goals);
+export default function GoalsTab({goals}: {goals: Goals}) {
     const hash = window.location.hash.substring(1);
     const selected = goals.hasOwnProperty(hash) ? hash : null;
     const [found, setFound] = useState(search(goals, selected, ""));
