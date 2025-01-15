@@ -3,7 +3,7 @@ export default class Cookie {
     // noinspection JSUnusedLocalSymbols
     private constructor(private document: Document) {}
 
-    public static from(document: Document): Cookie {
+    public static from(document: Document) {
         return new Cookie(document);
     }
 

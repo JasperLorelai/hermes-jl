@@ -4,21 +4,15 @@ import Link from "next/link";
 import React, {useEffect, useState} from "react";
 
 import Cookie from "@/handles/cookie";
+
 import SupportedVersions from "./SupportedVersions";
 
-export default function VersionList({version, fullPath}: {version: string, fullPath: string}) {
-    const [hash, setHash] = useState("");
+export default function VersionList({heading, version, fullPath, hash}: {heading: string, version: string, fullPath: string, hash: string}) {
     const [compact, setCompact] = useState(true);
 
     useEffect(() => {
-        const save = () => setHash(window.location.hash);
-        window.addEventListener("hashchange", save);
-        save();
-
         setCompact(Cookie.from(document).get("compact") !== "false");
-
-        return () => window.removeEventListener("hashchange", save);
-    }, [compact]);
+    }, []);
 
     function onChange(event: React.ChangeEvent<HTMLInputElement>) {
         const value = event.currentTarget.id === "compact-on";
@@ -46,10 +40,10 @@ export default function VersionList({version, fullPath}: {version: string, fullP
 
             <div className="text-center list-group">
                 {SupportedVersions.map(mcVer =>
-                    <Link key={mcVer} className="list-group-item list-group-item-action text-info"
-                          href={(compact ? "/paperdocs/" : "https://jd.papermc.io/paper/") + `${mcVer}/${version}/${fullPath}${hash}`}>
-                        {mcVer}
-                    </Link>
+                    <Link key={mcVer} className="list-group-item list-group-item-action text-info" href={compact ?
+                        `/paperdocs/${heading}/${mcVer}/${version}/${fullPath}` :
+                        `https://jd.papermc.io/paper/${mcVer}/${version}/${fullPath}${hash}`
+                    }>{mcVer}</Link>
                 )}
             </div>
         </>

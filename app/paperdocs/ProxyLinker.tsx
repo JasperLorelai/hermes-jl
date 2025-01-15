@@ -36,7 +36,7 @@ export default function ProxyLinker() {
             for (let url of Object.values(urls)) {
                 if (!input.startsWith(url.url)) continue;
                 setLoading(true);
-                router.push("/paperdocs/" + url.replace(input));
+                router.push("/paperdocs/-/" + url.replace(input));
                 return;
             }
             event.currentTarget.classList.replace("border-danger", "border-danger");

@@ -5,10 +5,18 @@ import {Cheerio, CheerioAPI} from "cheerio";
 
 import Table from "@/components/Table";
 
+function IndexHeader() {
+    return (<th className="px-2 text-secondary">#</th>);
+}
+
+function IndexCell({id}: {id: number}) {
+    return (<td align="center" className="small text-secondary-emphasis">{id}</td>);
+}
+
 export default function JavadocTable({$, summary} : {$: CheerioAPI, summary: Cheerio<AnyNode>}) {
-    const headers: React.JSX.Element[] = [];
+    const headers: React.JSX.Element[] = [<IndexHeader key="Index" />];
     const rows: React.JSX.Element[] = [];
-    let buffer: React.JSX.Element[] = [];
+    let buffer: React.JSX.Element[] = [<IndexCell key="index-0" id={0} />];
 
     let removedColumn = "";
     let valueColumn = "";
@@ -43,7 +51,7 @@ export default function JavadocTable({$, summary} : {$: CheerioAPI, summary: Che
 
         if (buffer.length >= headers.length) {
             rows.push(<tr key={"row-" + i}>{buffer}</tr>);
-            buffer = [];
+            buffer = [<IndexCell key={"index-" + rows.length} id={rows.length} />];
         }
 
         // We prefer the value lowercased.

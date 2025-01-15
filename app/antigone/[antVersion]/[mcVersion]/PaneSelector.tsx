@@ -21,7 +21,6 @@ export default function PaneSelector({panes}: {panes: Pane[]}) {
                 if (pane.classList.contains("active"))
                     pane.classList.add("bg-primary");
                 else pane.classList.remove("bg-primary");
-                console.log(pane.classList.toString());
             }
             pane.addEventListener("hidden.bs.tab", swapper);
             pane.addEventListener("shown.bs.tab", swapper);

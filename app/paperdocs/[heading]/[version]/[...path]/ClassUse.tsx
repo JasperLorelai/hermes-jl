@@ -1,24 +1,12 @@
-"use client";
-
+import React from "react";
 import Link from "next/link";
 import {redirect} from "next/navigation";
-import React, {useEffect, useState} from "react";
 
 import * as cheerio from "cheerio";
 
 import JavadocTable from "./JavadocTable";
 
-export default function ClassUse({body, url}: {body: string, url: string}) {
-    const [hash, setHash] = useState("");
-
-    useEffect(() => {
-        const save = () => setHash(window.location.hash);
-        window.addEventListener("hashchange", save);
-        save();
-
-        return () => window.removeEventListener("hashchange", save);
-    }, []);
-
+export default function ClassUse({body, url, hash}: {body: string, url: string, hash: string}) {
     const $ = cheerio.load(body);
     const classUseSummary = $(hash.replaceAll(".", "\\.") + " > div.summary-table").first();
 

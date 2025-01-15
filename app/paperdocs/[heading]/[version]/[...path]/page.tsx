@@ -7,18 +7,21 @@ import {cacheLife} from "next/dist/server/use-cache/cache-life";
 import * as cheerio from "cheerio";
 
 import ClassUse from "./ClassUse";
+import {Heading} from "./Heading";
 import VersionList from "./VersionList";
 import JavadocTable from "./JavadocTable";
 import SupportedVersions from "./SupportedVersions";
 
-export default async function Page(props: {params: Promise<{version: string, path: string[]}>}) {
-    const {version, path} = await props.params;
+export default async function Page(props: {params: Promise<{heading: string, version: string, path: string[]}>}) {
+    const {heading, version, path} = await props.params;
+
+    const hash = Heading.toHash(heading);
     const fullPath = path.join("/");
 
-    if (!SupportedVersions.includes(version)) return (<VersionList version={version} fullPath={fullPath} />);
+    if (!SupportedVersions.includes(version)) return (<VersionList heading={heading} version={version} fullPath={fullPath} hash={hash} />);
     cacheLife(version == SupportedVersions[0] ? "hours" : "max");
 
-    const url = `https://jd.papermc.io/paper/${version}/${fullPath}`;
+    const url = `https://jd.papermc.io/paper/${version}/${fullPath}${hash}`;
     const response = await fetch(url);
     if (response.status != 200) return (<div className="text-danger display-3">Invalid Javadoc URL</div>);
 
@@ -31,7 +34,7 @@ export default async function Page(props: {params: Promise<{version: string, pat
     switch (true) {
         case enumSummary.length != 0: return (<JavadocTable $={$} summary={enumSummary} />);
         case fieldSummary.length != 0: return (<JavadocTable $={$} summary={fieldSummary} />);
-        case path[path.length - 2] === "class-use": return (<ClassUse body={body} url={url} />);
+        case path[path.length - 2] === "class-use": return (<ClassUse body={body} url={url} hash={hash} />);
         case true: redirect(url);
     }
 }
