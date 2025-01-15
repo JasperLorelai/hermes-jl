@@ -13,7 +13,6 @@ export const metadata: Metadata = {
     openGraph: {
         title,
         siteName: title,
-        url: "/howoldis/mc/",
         description: "View the age of a specific Minecraft version."
     }
 };
