@@ -19,5 +19,5 @@ jobs:
             docker compose down
             git fetch origin
             git reset --hard origin/main
-            cp -n ../.env.local .
+            cp ../.env.local .
             screen -S build -d -m bash -c 'docker compose up --build -d'
