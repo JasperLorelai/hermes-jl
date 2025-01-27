@@ -53,10 +53,7 @@ export default function SoundboardDownloads() {
                                         __html: unified()
                                             .use(remarkParse)
                                             .use(remarkRehype)
-                                            .use(addClasses, {
-                                                img: "img-fluid",
-                                                code: "p-1 bg-secondary"
-                                            })
+                                            .use(addClasses, {img: "img-fluid"})
                                             .use(rehypeStringify)
                                             .processSync(data.body)
                                             .toString()
