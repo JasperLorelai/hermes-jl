@@ -3,8 +3,9 @@ services:
     build: .
     network_mode: bridge
     image: hermes-jl
-    expose: [3000]
+    working_dir: /app
+    hostname: "0.0.0.0"
     ports: ["3000:3000"]
     env_file: [.env.local]
-    command: npm run prod
+    command: node server.js
     restart: unless-stopped

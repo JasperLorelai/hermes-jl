@@ -1,9 +1,32 @@
-FROM node:23.3.0
+# Base image
+FROM node:23.3.0 AS base
+
+# Dependencies
+FROM base AS deps
+
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+
+# Builder
+FROM base AS builder
+
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm run build
+
+# Standalone production
+FROM base AS runner
 
 WORKDIR /app
 
-COPY package*.json .
+ENV NODE_ENV production
+RUN addgroup --system -gid 1001 nodejs
+RUN adduser --system -uid 1001 --ingroup nodejs nextjs
 
-RUN npm install || { cat $(ls -t /root/.npm/_logs/*-debug-0.log | head -n 1); exit 1; }
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone .
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-COPY . .
+USER nextjs
