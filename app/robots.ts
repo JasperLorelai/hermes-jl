@@ -6,8 +6,13 @@ export default function robots(): MetadataRoute.Robots {
         rules: [
             {
                 userAgent: "*",
-                allow: "/",
-                disallow: ["/webhook/", "/memberchart/"]
+                allow: ["/", "/paperdocs"],
+                disallow: [
+                    "/webhook",
+                    "/memberchart",
+                    "/paperdocs/",
+                    "/_next/",
+                ]
             },
             {
                 userAgent: "nsa",
