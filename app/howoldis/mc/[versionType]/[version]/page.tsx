@@ -12,16 +12,15 @@ import {generateMetadata as generateOldMetadata} from "../page";
 const versionDataPath = "./public/mcVersionData.json";
 
 function getAge(releaseDate: Date | null) {
-    if (!releaseDate) return "";
-    return Seconds.milliseconds(Date.now() - releaseDate.getTime()).toDuration();
+    return releaseDate ? Seconds.delta(releaseDate).duration().minutes() : "";
 }
 
 function getReleaseDate(versionType: string, version: string) {
     if (!fs.existsSync(versionDataPath)) return null;
     const allVersionRawData = fs.readFileSync(versionDataPath).toString();
     const allVersionData = JSON.parse(allVersionRawData) || {};
-    const releaseTime = allVersionData[versionType]?.find((data: any) => data.id === version)?.releaseTime || 0;
-    return new Date(releaseTime);
+    const releaseTime = allVersionData[versionType]?.find((data: any) => data.id === version)?.releaseTime;
+    return releaseTime ? new Date(releaseTime) : null;
 }
 
 export async function generateMetadata(params: ParamsVersion): Promise<Metadata> {

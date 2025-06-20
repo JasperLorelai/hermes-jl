@@ -20,6 +20,8 @@ export async function generateMetadata(props: ParamsVersionType): Promise<Metada
 }
 
 export default async function Page(props: ParamsVersionType) {
+    await connection();
+
     const {versionType} = await props.params;
 
     let versionData;
