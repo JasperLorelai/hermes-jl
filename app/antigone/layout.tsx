@@ -1,3 +1,6 @@
+"use cache";
+
+import {cacheLife} from "next/dist/server/use-cache/cache-life";
 import React from "react";
 import {Metadata, Viewport} from "next";
 
@@ -17,7 +20,9 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {themeColor: "#0296ff"};
 
-export default function Layout({children}: {children: React.ReactNode}) {
+export default async function Layout({children}: {children: React.ReactNode}) {
+    cacheLife("hours");
+
     return (<>
         <Navbar brand={{text: "Antigone", url: "/antigone"}} links={[
             {text: "Project Repository", url: "https://github.com/JasperLorelai/Antigone", target: "_blank"},

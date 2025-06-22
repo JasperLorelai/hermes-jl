@@ -40,7 +40,7 @@ export default function VersionList({heading, version, fullPath, hash}: {heading
 
             <div className="text-center list-group">
                 {SupportedVersions.map(mcVer =>
-                    <Link key={mcVer} className="list-group-item list-group-item-action text-info" href={compact ?
+                    <Link key={mcVer} className="list-group-item list-group-item-action text-info" prefetch={compact} href={compact ?
                         `/paperdocs/${heading}/${mcVer}/${version}/${fullPath}` :
                         `https://jd.papermc.io/paper/${mcVer}/${version}/${fullPath}${hash}`
                     }>{mcVer}</Link>

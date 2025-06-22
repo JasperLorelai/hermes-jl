@@ -1,14 +1,19 @@
-"use client";
+"use cache";
 
 import Link from "next/link";
-import {useContext, use} from "react";
+import {cacheLife} from "next/dist/server/use-cache/cache-life";
 
 import {ParamsAntigoneVersion} from "./Params";
-import DocumentationContext from "./DocumentationContext";
+import * as AntigoneHandle from "@/handles/AntigoneHandle";
 
-export default function Page(props: ParamsAntigoneVersion) {
-    const {antVersion} = use(props.params);
-    const documentation = useContext(DocumentationContext);
+export async function generateStaticParams() {
+    return (await AntigoneHandle.getTags()).map(antVersion => ({antVersion}));
+}
+
+export default async function Page({params}: ParamsAntigoneVersion) {
+    cacheLife("hours");
+    const {antVersion} = await params;
+    const documentation = await AntigoneHandle.getDocs(antVersion);
 
     return (<>
         <h1 className="text-decoration-none text-primary">Versions:</h1>

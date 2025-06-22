@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build",
+    "prod_test": "docker compose up --build",
     "lint": "next lint",
     "reinstall": "npm i",
     "cypress:open": "cypress open"

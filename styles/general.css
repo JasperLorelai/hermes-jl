@@ -10,6 +10,7 @@ code {
     color: var(--jl-blue-dark);
     padding: 2px;
     font-size: 105%;
+    font-weight: bolder;
 }
 
 .cm-scroller {

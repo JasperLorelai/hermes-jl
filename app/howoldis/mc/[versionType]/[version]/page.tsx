@@ -1,49 +1,37 @@
+"use cache";
+
 import React from "react";
 import Link from "next/link";
 import {Metadata} from "next";
-import {connection} from "next/server";
-
-import fs from "fs";
-import {Seconds} from "seconds-util";
+import {cacheLife} from "next/dist/server/use-cache/cache-life";
 
 import {ParamsVersion} from "./MCVersionParams";
+import * as MCVersionHandle from "@/handles/MCVersionHandle";
 import {generateMetadata as generateOldMetadata} from "../page";
 
-const versionDataPath = "./public/mcVersionData.json";
-
-function getAge(releaseDate: Date | null) {
-    return releaseDate ? Seconds.delta(releaseDate).duration().minutes() : "";
-}
-
-function getReleaseDate(versionType: string, version: string) {
-    if (!fs.existsSync(versionDataPath)) return null;
-    const allVersionRawData = fs.readFileSync(versionDataPath).toString();
-    const allVersionData = JSON.parse(allVersionRawData) || {};
-    const releaseTime = allVersionData[versionType]?.find((data: any) => data.id === version)?.releaseTime;
-    return releaseTime ? new Date(releaseTime) : null;
-}
-
 export async function generateMetadata(params: ParamsVersion): Promise<Metadata> {
-    const {versionType, version} = await params.params;
+    let {versionType, version} = await params.params;
+    version = await MCVersionHandle.parseVersion(versionType, version);
     const oldMetadata = Object.assign({}, await generateOldMetadata(params));
 
     const title = `How old is MC ${version}?`;
     oldMetadata.title = title;
-    const releaseDate = getReleaseDate(versionType, version);
-    if (releaseDate && oldMetadata.openGraph) {
+    const releaseTime = await MCVersionHandle.getReleaseTime(version);
+    if (releaseTime && oldMetadata.openGraph) {
         oldMetadata.openGraph.title = title;
         oldMetadata.openGraph.url = `/howoldis/mc/${versionType}/${version}`;
-        oldMetadata.openGraph.description = releaseDate.toUTCString() + " - " + getAge(releaseDate);
+        oldMetadata.openGraph.description = releaseTime.date.toUTCString() + " - " + releaseTime.age;
     }
 
     return oldMetadata;
 }
 
 export default async function Page(props: ParamsVersion) {
-    await connection();
+    cacheLife("hours");
+    let {versionType, version} = await props.params;
+    version = await MCVersionHandle.parseVersion(versionType, version);
+    const releaseTime = await MCVersionHandle.getReleaseTime(version);
 
-    const {versionType, version} = await props.params;
-    const releaseDate = getReleaseDate(versionType, version);
     return (
         <div className="container py-5 vh-100">
             <div className="text-center">
@@ -55,13 +43,13 @@ export default async function Page(props: ParamsVersion) {
                     </Link>
                 </div>
             </div>
-            {releaseDate ?
+            {releaseTime ?
                 <div className="display-6">
                     <div>Version: <span className="text-primary">{version}</span></div>
-                    <div>Release Time: <a className="text-primary" href={"https://time.is/" + releaseDate.getTime()} target="_blank">
-                        {releaseDate.toUTCString()}
+                    <div>Release Time: <a className="text-primary" href={"https://time.is/" + releaseTime.date.getTime()} target="_blank">
+                        {releaseTime.date.toUTCString()}
                     </a></div>
-                    <div>Age: <span className="text-primary">{getAge(releaseDate)}</span></div>
+                    <div>Age: <span className="text-primary">{releaseTime.age}</span></div>
                 </div>
                 :
                 <h2 className="text-danger">This version type does not exist.</h2>

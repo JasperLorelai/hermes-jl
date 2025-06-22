@@ -5,6 +5,7 @@ import {redirect} from "next/navigation";
 import {cacheLife} from "next/dist/server/use-cache/cache-life";
 
 import * as cheerio from "cheerio";
+import {Seconds} from "seconds-util";
 
 import ClassUse from "./ClassUse";
 import {Heading} from "./Heading";
@@ -19,10 +20,12 @@ export default async function Page(props: {params: Promise<{heading: string, ver
     const fullPath = path.join("/");
 
     if (!SupportedVersions.includes(version)) return (<VersionList heading={heading} version={version} fullPath={fullPath} hash={hash} />);
-    cacheLife(version == SupportedVersions[0] ? "hours" : "max");
+    const isLatest = version == SupportedVersions[0];
+    cacheLife(isLatest ? "days" : "max");
+    const fetchLife = (isLatest ? Seconds.d() : Seconds.months()).s();
 
     const url = `https://jd.papermc.io/paper/${version}/${fullPath}${hash}`;
-    const response = await fetch(url);
+    const response = await fetch(url, {next: {revalidate: fetchLife}});
     if (response.status != 200) return (<div className="text-danger display-3">Invalid Javadoc URL</div>);
 
     const body = await response.text();

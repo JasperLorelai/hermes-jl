@@ -1,6 +1,4 @@
-"use client";
-
-import {ReactElement, useEffect, useState} from "react";
+import {ReactElement} from "react";
 
 import {unified} from "unified";
 
@@ -9,8 +7,8 @@ import remarkRehype from "remark-rehype";
 import addClasses from "rehype-add-classes";
 import rehypeStringify from "rehype-stringify";
 
+import Versions from "./Versions";
 import {PrimaryBadge} from "./Badge";
-import LoadingSpinner from "@/components/LoadingSpinner";
 
 interface Asset {
     download_count: number,
@@ -25,76 +23,57 @@ interface ReleaseData {
     body: string
 }
 
-export default function SoundboardDownloads() {
-    const [data, setData] = useState(<></>);
-    const [isLoading, setLoading] = useState(true);
+export const cacheTime = 3600; // 1h
 
-    useEffect(() => {
-        fetch("https://api.github.com/repos/JasperLorelai/minecraft-soundboard/releases")
-            .then(y => y.json())
-            .then((releases: any) => {
-                const versionOptions: ReactElement[] = [];
-                const panels: ReactElement[] = [];
-                let totalDownloads = 0;
-                releases.forEach((data: ReleaseData, i: number) => {
-                    const tag = data.tag_name;
-                    const firstAsset = data.assets.at(0);
-                    const downloads = firstAsset?.download_count || 0;
-                    totalDownloads += downloads;
-                    versionOptions.push(<option value={tag} key={tag}>{tag}</option>);
-                    panels.push(
-                        <div className={"tab-pane fade min-vh-100" + (i === 0 ? " show active" : "")} id={tag} key={tag} role="tabpanel">
-                            <div className="card text-light" style={{backgroundColor: "var(--bs-gray-700)"}}>
-                                <h5 className="card-header" style={{backgroundColor: "var(--bs-gray-800)"}}>
-                                    <PrimaryBadge text={tag} /> {data.name}
-                                </h5>
-                                <div className="card-body">
-                                    <p className="card-text" dangerouslySetInnerHTML={{
-                                        __html: unified()
-                                            .use(remarkParse)
-                                            .use(remarkRehype)
-                                            .use(addClasses, {img: "img-fluid"})
-                                            .use(rehypeStringify)
-                                            .processSync(data.body)
-                                            .toString()
-                                    }} />
-                                    <a href={firstAsset?.browser_download_url} target="_blank" rel="noreferrer" className="btn btn-primary">Download ({downloads})</a>
-                                </div>
-                            </div>
-                        </div>
-                    );
-                });
+export default async function SoundboardDownloads() {
+    const releases: ReleaseData[] = await fetch("https://api.github.com/repos/JasperLorelai/minecraft-soundboard/releases", {next: {revalidate: cacheTime}}).then(y => y.json());
+    if (!releases?.length) return (
+        <>
+            <h2 className="text-primary">Downloads:</h2>
+            <div className="text-danger">Could not fetch download data. Please visit the Project Repository instead.</div>
+        </>
+    );
 
-                setData(
-                    <>
-                        <h1 className="text-primary">Downloads <i>({totalDownloads}):</i></h1>
-                        <hr/>
-                        <select className="form-select form-select-lg mb-3 text-center w-25" defaultValue={0}
-                                onChange={e => {
-                                    const el = document.getElementById(e.target.value);
-                                    if (!el) return;
-                                    const panes = document.getElementsByClassName("tab-pane");
-                                    for (const pane of panes) {
-                                        if (el === pane) pane.classList.add("show", "active");
-                                        else pane.classList.remove("show", "active");
-                                    }
-                                }}>{versionOptions}</select>
-                        <div className="tab-content">{panels}</div>
-                    </>
-                );
-                setLoading(false);
-            })
-            .catch(_ => {
-                setData(
-                    <>
-                        <h1>Downloads:</h1>
-                        <p>Could not fetch download data. Please visit the Project Repository instead.</p>
-                    </>
-                );
-                setLoading(false);
-            });
-    }, []);
+    const versions: ReactElement[] = [];
+    const panels: ReactElement[] = [];
+    let totalDownloads = 0;
 
-    if (isLoading) return (<LoadingSpinner/>);
-    return data;
+    for (let i = 0; i < releases.length; i++){
+        const {tag_name, assets, name, body} = releases[i];
+        const firstAsset = assets.at(0);
+        const downloads = firstAsset?.download_count || 0;
+        totalDownloads += downloads;
+
+        versions.push(<option value={tag_name} key={tag_name}>{tag_name}</option>);
+        panels.push(
+            <div className={"tab-pane fade min-vh-100" + (i === 0 ? " show active" : "")} id={tag_name} key={tag_name} role="tabpanel">
+                <div className="card text-light" style={{backgroundColor: "var(--bs-gray-700)"}}>
+                    <h5 className="card-header" style={{backgroundColor: "var(--bs-gray-800)"}}>
+                        <PrimaryBadge text={tag_name} /> {name}
+                    </h5>
+                    <div className="card-body">
+                        <p className="card-text" dangerouslySetInnerHTML={{
+                            __html: unified()
+                                .use(remarkParse)
+                                .use(remarkRehype)
+                                .use(addClasses, {img: "img-fluid"})
+                                .use(rehypeStringify)
+                                .processSync(body)
+                                .toString()
+                        }} />
+                        <a href={firstAsset?.browser_download_url} target="_blank" rel="noreferrer" className="btn btn-primary">Download ({downloads})</a>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <>
+            <h2 className="text-primary">Downloads <i>({totalDownloads} total):</i></h2>
+            <hr/>
+            <Versions versions={versions} />
+            <div className="tab-content">{panels}</div>
+        </>
+    );
 }

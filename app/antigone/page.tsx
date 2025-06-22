@@ -1,31 +1,26 @@
-"use client";
+"use cache";
 
+import React from "react";
 import Link from "next/link";
-import React, {useEffect, useState} from "react";
+import {cacheLife} from "next/dist/server/use-cache/cache-life";
 
-import LoadingSpinner from "@/components/LoadingSpinner";
+import * as AntigoneHandle from "@/handles/AntigoneHandle";
 
-export default function Page() {
-    const [data, setData] = useState(<></>);
-    const [isLoading, setLoading] = useState(true);
+export default async function Page() {
+    cacheLife("hours");
+    const tags = await AntigoneHandle.getTags();
 
-    useEffect(() => {(async () => {
-       const tags: {name: string}[] = await fetch("https://api.github.com/repos/JasperLorelai/Antigone/tags").then(y => y.json());
-
-       setData(<>{tags.map(({name}) =>
-           <Link key={name} className="list-group-item list-group-item-action text-info" href={`/antigone/${name}`} prefetch={true}>
-               {name}
-           </Link>
-       )}</>);
-       setLoading(false);
-    })()}, []);
-
-    if (isLoading) return (<LoadingSpinner/>);
     return (
         <>
             <h1 className="text-decoration-none text-primary">Versions:</h1>
             <hr/>
-            <div className="text-center list-group col-6 d-grid">{data}</div>
+            <div className="text-center list-group col-6 d-grid">
+                {tags.map(tag =>
+                    <Link key={tag} className="list-group-item list-group-item-action text-info" href={`/antigone/${tag}`} prefetch={true}>
+                        {tag}
+                    </Link>
+                )}
+            </div>
         </>
     );
 }

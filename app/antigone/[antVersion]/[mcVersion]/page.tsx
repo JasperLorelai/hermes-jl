@@ -1,6 +1,7 @@
-"use client";
+"use cache";
 
-import React, {useContext, use} from "react";
+import React from "react";
+import {cacheLife} from "next/dist/server/use-cache/cache-life";
 
 import SemVer from "semver";
 
@@ -9,13 +10,15 @@ import PaneSelector from "./PaneSelector";
 import {ParamsMinecraftVersion} from "../Params";
 import DocumentationFixes from "./DocumentationFixes";
 import PathfindingMalusTab from "./PathfindingMalusTab";
-import DocumentationContext from "../DocumentationContext";
+import * as AntigoneHandle from "@/handles/AntigoneHandle";
 import LivingEntityClassValues from "./LivingEntityClassValues";
 
-export default function Page(props: ParamsMinecraftVersion) {
-    let {antVersion, mcVersion} = use(props.params);
+export default async function Page({params}: ParamsMinecraftVersion) {
+    cacheLife("hours");
+    const {antVersion, mcVersion} = await params;
 
-    const documentation = useContext(DocumentationContext)?.[mcVersion];
+    const documentationFull = await AntigoneHandle.getDocs(antVersion);
+    const documentation = documentationFull ? documentationFull[mcVersion] : null;
     if (!documentation) return (<div className="text-danger">Could not load version data.</div>);
     const {LivingEntityClass, PathfindingMalus} = documentation;
 

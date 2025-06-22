@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
   experimental: {
     dynamicIO: true
   },
+  images: {
+    remotePatterns: [
+      {hostname: "files.jasperlorelai.eu"}
+    ],
+  },
   async headers() {
     return [
       {

@@ -1,6 +1,10 @@
+"use cache";
+
 import {Metadata, Viewport} from "next";
+import {cacheLife} from "next/dist/server/use-cache/cache-life";
 
 import Navbar from "@/components/Navbar";
+import AnimatedWebP from "@/components/AnimatedWebP";
 import {PrimaryBadge, SecondaryBadge} from "./Badge";
 import SoundboardDownloads from "./SoundboardDownloads";
 
@@ -18,7 +22,9 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {themeColor: "#ff7a21"};
 
-export default function Page() {
+export default async function Page() {
+    cacheLife("hours");
+
     return (
         <>
             <Navbar brand={{text: "Soundboard", url: "/soundboard"}} links={[
@@ -28,35 +34,28 @@ export default function Page() {
             ]} />
 
             <div className="container lh-lg py-sm-5">
-                <h1 className="text-primary">How to set up:</h1>
+                <div className="d-flex justify-content-center">
+                    <div className="text-primary-emphasis fs-1 fw-bold">Minecraft Soundboard</div>
+                </div>
+                <h2 className="text-primary">How to set up:</h2>
                 <hr/>
                 <p>
-                    This configuration file requires the plugin MagicSpells to run. Note that the <PrimaryBadge
-                    text={"1.0.0"}/> version
-                    of the Soundboard only includes sounds up to <PrimaryBadge text={"1.12.2"}/>. That Minecraft version
-                    is only supported
-                    by MagicSpells versions below <PrimaryBadge text={"4.0"}/>, which require EffectLib as well.
-                    The <PrimaryBadge text={"1.0.0"}/> version
-                    works on Minecraft versions <PrimaryBadge text={"1.8.x-1.12.2"}/>, but you obviously can not
-                    play <PrimaryBadge text={"1.12.x"}/> sounds
-                    on versions below. Soundboard versions above <PrimaryBadge text={"1.0.0"}/> support
-                    MagicSpells <PrimaryBadge text={"4.0+."}/>
+                    This is a configuration file for the <PrimaryBadge text="MagicSpells" /> plugin.
+                    Ideally, you should install the latest version of the Soundboard that does not add sounds above your
+                    Minecraft version. Install the MagicSpells version that supports that Minecraft version. Take note
+                    of the changelogs in case of incompatibilities, fixes, or changes.
                 </p>
                 <p>
-                    Download the configuration file below and place the file in your MagicSpells plugin folder, then
-                    reload the plugin.
-                    To open use one of following commands: <SecondaryBadge text={"/soundboard"}/>, <SecondaryBadge
-                    text={"/sounds"}/> or <SecondaryBadge text={"/sb"}/>.
+                    Download the config file and place it in <SecondaryBadge text="plugins/MagicSpells" />,
+                    then run <PrimaryBadge text="/ms reload" />. Use one of the following commands to open the Soundboard:
+                    <PrimaryBadge text="/sb" />, <SecondaryBadge text= "/sounds" /> or <SecondaryBadge text="/soundboard" />.
                 </p>
-                <p>
-                    In the GUI you can search for sounds to check their sound names or select it to play it. You can
-                    modify
-                    pitch and volume and try what it sounds like with your configuration. Once you think the sound is
-                    good enough
-                    you can click the paper item to paste the current sound configuration in chat where you can copy it
-                    and paste
-                    it in your scripting plugin, or anywhere you need to use it.
-                </p>
+                <AnimatedWebP
+                    className="d-flex justify-content-center py-3"
+                    src="https://files.jasperlorelai.eu/projects/videos/soundboard_demo.webp"
+                    placeholder="https://files.jasperlorelai.eu/projects/images/soundboard_demo_blur.png"
+                    alt="Soundboard demo" width={800} height={450}
+                />
 
                 <SoundboardDownloads/>
             </div>
