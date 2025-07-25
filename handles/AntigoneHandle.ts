@@ -1,4 +1,4 @@
-import {DocumentationFull} from "../app/antigone/[antVersion]/Documentation";
+import DocumentationFixes from "../app/antigone/[antVersion]/[mcVersion]/DocumentationFixes";
 
 export const cacheTime = 3600; // 1h
 
@@ -9,5 +9,5 @@ export async function getTags() {
 
 export async function getDocs(tag: string) {
     const response = await fetch(`https://raw.githubusercontent.com/JasperLorelai/Antigone/${tag}/docs/docs.json`, {next: {revalidate: cacheTime}}).then(y => y.json());
-    return response as DocumentationFull;
+    return DocumentationFixes.addVersionStrings(response);
 }

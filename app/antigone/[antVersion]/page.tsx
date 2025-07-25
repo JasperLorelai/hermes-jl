@@ -20,10 +20,10 @@ export default async function Page({params}: ParamsAntigoneVersion) {
         <hr/>
         {documentation ?
             <div className="text-center list-group col-6 d-grid">
-                {Object.keys(documentation).reverse().map(mcVersion =>
+                {Object.entries(documentation).reverse().map(([mcVersion, {supportedVersions}]) =>
                     <Link key={mcVersion} className="list-group-item list-group-item-action text-info"
                           href={`/antigone/${antVersion}/${mcVersion}`} prefetch={true}>
-                        {mcVersion}
+                        {supportedVersions}
                     </Link>
                 )}
             </div> :

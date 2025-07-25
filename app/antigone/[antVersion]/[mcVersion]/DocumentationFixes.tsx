@@ -1,6 +1,6 @@
 import SemVer from "semver";
 
-import {GoalData, Goals} from "../Documentation";
+import {DocumentationFull, GoalData, Goals} from "../Documentation";
 
 export default class DocumentationFixes {
 
@@ -36,6 +36,31 @@ export default class DocumentationFixes {
         }
 
         return newGoals;
+    }
+
+    public static addVersionStrings(documentationFull: DocumentationFull) {
+        for (const mcVersion of Object.keys(documentationFull)) {
+            if (["v1_21_7", "v1_21_8"].includes(mcVersion)) {
+                delete documentationFull[mcVersion];
+                continue;
+            }
+
+            const docs = documentationFull[mcVersion];
+            docs.cleanVersion ??= mcVersion.substring(1).replace(/_/g, ".");
+
+            if (docs.supportedVersions) continue;
+            docs.supportedVersions = docs.cleanVersion;
+            switch (docs.cleanVersion) {
+                case "1.21":
+                    docs.supportedVersions += " and 1.21.1";
+                    break;
+                case "1.21.6":
+                    docs.supportedVersions += ", 1.21.7, and 1.21.8";
+                    break;
+            }
+        }
+
+        return documentationFull;
     }
 
     private static remap(goals: Goals, remap: (key: string, data: GoalData) => GoalData | null) {

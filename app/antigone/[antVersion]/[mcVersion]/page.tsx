@@ -3,8 +3,6 @@
 import React from "react";
 import {cacheLife} from "next/dist/server/use-cache/cache-life";
 
-import SemVer from "semver";
-
 import GoalsTab from "./GoalsTab";
 import PaneSelector from "./PaneSelector";
 import {ParamsMinecraftVersion} from "../Params";
@@ -20,17 +18,16 @@ export default async function Page({params}: ParamsMinecraftVersion) {
     const documentationFull = await AntigoneHandle.getDocs(antVersion);
     const documentation = documentationFull ? documentationFull[mcVersion] : null;
     if (!documentation) return (<div className="text-danger">Could not load version data.</div>);
-    const {LivingEntityClass, PathfindingMalus} = documentation;
+    const {cleanVersion, supportedVersions, LivingEntityClass, PathfindingMalus} = documentation;
 
-    const coercedMcVersion = SemVer.coerce(mcVersion.replace(/_/g, "."))?.toString() || "";
-    const goals = DocumentationFixes.initialFilter(antVersion, coercedMcVersion, documentation.goals);
+    const goals = DocumentationFixes.initialFilter(antVersion, cleanVersion, documentation.goals);
 
     return (
         <>
             <h1 className="text-primary">Selected Version:</h1>
             <hr/>
             <div>Antigone Version: <span className="text-primary fw-bold">{antVersion}</span></div>
-            <div>Minecraft Version: <span className="text-primary fw-bold">{coercedMcVersion}</span></div>
+            <div>Supported Minecraft Versions: <span className="text-primary fw-bold">{supportedVersions}</span></div>
             <hr/>
             <PaneSelector panes={[
                 {id: "goals", name: "Goals", content: <GoalsTab goals={goals}/>},
