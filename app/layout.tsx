@@ -62,7 +62,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
             </head>
             <body className={"h-100 cm-scroller text-light bg-black " + font.className}>
                 <main>
-                    <Suspense fallback={<LoadingSpinner/>}>
+                    <Suspense fallback={<div className="vh-100 align-content-center"><LoadingSpinner/></div>}>
                         {children}
                     </Suspense>
                 </main>

@@ -2,7 +2,8 @@ import {Metadata, Viewport} from "next";
 
 import ChartRenderer from "./ChartRenderer";
 
-import {Keyv} from "@/handles/Keyv";
+import {ensureSequelizeSync} from "@/handles/Sequelize";
+import memberChartData from "@/handles/db/MemberChartData";
 
 const title = "Member Traffic Chart";
 export const metadata: Metadata = {
@@ -19,20 +20,13 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {themeColor: "#67727a"};
 
 export default async function MemberChart() {
-    const chartData: any = {};
-    for (const [date, servers] of Object.entries(await Keyv.get("memberTraffic") || {})) {
-        // @ts-ignore
-        for (const [server, count] of Object.entries(servers)) {
-            chartData[server] ??= [];
-            chartData[server].push({category: date, count});
-        }
-    }
+    await ensureSequelizeSync();
 
     return (
         <div className="container lh-lg py-sm-5 text-center">
             <h1>Weekly Member Traffic Chart</h1>
             <p>You can toggle which servers are displayed on the chart by clicking on the legend.</p>
-            <ChartRenderer chartData={chartData} />
+            <ChartRenderer chartConfig={await memberChartData()} />
         </div>
     );
 }
