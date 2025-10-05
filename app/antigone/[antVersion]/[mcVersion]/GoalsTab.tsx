@@ -5,16 +5,35 @@ import React, {ReactNode, useEffect, useState} from "react";
 import Table from "@/components/Table";
 import CodeBlock, {line} from "@/components/CodeBlock";
 
+import {Heading} from "../../../paperdocs/[heading]/[version]/[...path]/Heading";
+
 import {Goals} from "../Documentation";
 
-const baseURL = "https://jasperlorelai.eu/antigone";
-function resolveMarkdownLinks(string: string) {
+const baseURL = "https://jasperlorelai.eu";
+const antigoneBaseURL = baseURL + "/antigone";
+const docsBaseURL = baseURL + "/paperdocs";
+function resolveMarkdownLinks(string: string, mcVersion: string) {
     const linkPattern = /\[(\w+(?: \w+)*)]\(([^)]+)\)/;
     while (linkPattern.test(string)) {
         const match = string.match(linkPattern);
         if (!match) continue;
+        
         let url = match[2];
-        if (url.startsWith(baseURL) && url.length > baseURL.length) url = url.substring(baseURL.length);
+        if (url.startsWith(antigoneBaseURL) && url.length > antigoneBaseURL.length) {
+            url = url.substring(antigoneBaseURL.length);
+        }
+        if (url.startsWith(docsBaseURL)) {
+            url = url.substring(baseURL.length);
+            
+            // Upgrade doc URL
+            const [pathname, hash] = url.split("#");
+            const newUrl = Heading.upgrade(pathname, hash);
+            if (newUrl) url = newUrl;
+            
+            // Attach MC version
+            url = baseURL + url.replace(/(\/paperdocs\/[^/]+\/)/, `$1${mcVersion}/`);
+        }
+        
         string = string.replace(match[0], `<a target="_blank" href="${url}">${match[1]}</a>`);
     }
     return string;
@@ -25,7 +44,7 @@ type SearchResult = {
     docs: ReactNode
 }
 
-function search(goals: Goals, selected: string | null, term: string): SearchResult {
+function search(goals: Goals, selected: string | null, term: string, mcVersion: string): SearchResult {
     const isEmpty = !term;
     if (term) term = term.replaceAll(" ", "_");
     const goalEntries = Object.entries(goals).filter(([key]) =>
@@ -65,7 +84,7 @@ function search(goals: Goals, selected: string | null, term: string): SearchResu
                     ""
                 }
                 <ul>
-                    <li><b>Valid target:</b> <code dangerouslySetInnerHTML={{__html: resolveMarkdownLinks(goalData.target)}}></code>
+                    <li><b>Valid target:</b> <code dangerouslySetInnerHTML={{__html: resolveMarkdownLinks(goalData.target, mcVersion)}}></code>
                     </li>
                     {goalData.extends ?
                         <li>
@@ -88,7 +107,7 @@ function search(goals: Goals, selected: string | null, term: string): SearchResu
                         goalData.parameters.map((parameter, i) =>
                             <tr key={parameter.name + "-" + i}>
                                 <td><code className="small">{parameter.name}</code></td>
-                                <td dangerouslySetInnerHTML={{__html: resolveMarkdownLinks(parameter.type)}}></td>
+                                <td dangerouslySetInnerHTML={{__html: resolveMarkdownLinks(parameter.type, mcVersion)}}></td>
                                 {hasDefaults ?
                                     <>
                                         <td><code>{parameter.default}</code></td>
@@ -118,10 +137,10 @@ function search(goals: Goals, selected: string | null, term: string): SearchResu
     };
 }
 
-export default function GoalsTab({goals}: {goals: Goals}) {
+export default function GoalsTab({goals, mcVersion}: {goals: Goals, mcVersion: string}) {
     const hash = window.location.hash.substring(1);
     const selected = goals.hasOwnProperty(hash) ? hash : null;
-    const [found, setFound] = useState(search(goals, selected, ""));
+    const [found, setFound] = useState(search(goals, selected, "", mcVersion));
 
     useEffect(() => {
         for (const pill of [...document.getElementsByClassName("goal-pill")]) {
@@ -148,7 +167,7 @@ export default function GoalsTab({goals}: {goals: Goals}) {
                      role="tablist" tabIndex={0}>
                     <form role="search" className="py-3">
                         <input className="form-control" type="search" placeholder="Search" onChange={event => {
-                            setFound(search(goals, selected, event.currentTarget.value));
+                            setFound(search(goals, selected, event.currentTarget.value, mcVersion));
                         }} />
                     </form>
                     {found.list}

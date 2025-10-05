@@ -4,6 +4,8 @@ import localFont from "next/font/local";
 
 import BootstrapJS from "./BootstrapJS";
 
+import getBaseURL from "@/handles/getBaseURL";
+
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
@@ -34,10 +36,7 @@ import "../styles/general.css";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
 export const metadata: Metadata = {
-    metadataBase: new URL(process.env.NODE_ENV === "development" ?
-        "http://localhost:" + process.env.PORT :
-        "https://jasperlorelai.eu"
-    ),
+    metadataBase: new URL(getBaseURL()),
 };
 
 export const viewport: Viewport = {

@@ -2,9 +2,11 @@ process.loadEnvFile(".env.local");
 
 import {defineConfig} from "cypress";
 
+import getBaseURL from "@/handles/getBaseURL";
+
 export default defineConfig({
   e2e: {
-    baseUrl: process.env.NODE_ENV === "development" ? `http://localhost:${process.env.PORT}/` : "https://jasperlorelai.eu/",
+    baseUrl: getBaseURL(),
     setupNodeEvents(on, config) {},
   },
 });

@@ -30,8 +30,8 @@ export default async function Page({params}: ParamsMinecraftVersion) {
             <div>Supported Minecraft Versions: <span className="text-primary fw-bold">{supportedVersions}</span></div>
             <hr/>
             <PaneSelector panes={[
-                {id: "goals", name: "Goals", content: <GoalsTab goals={goals}/>},
-                {id: "LivingEntityClass", name: "LivingEntityClass", content: <LivingEntityClassValues entities={LivingEntityClass}/>},
+                {id: "goals", name: "Goals", content: <GoalsTab goals={goals} mcVersion={cleanVersion} />},
+                {id: "LivingEntityClass", name: "LivingEntityClass", content: <LivingEntityClassValues entities={LivingEntityClass} />},
                 {id: "PathfindingMalus", name: "Pathfinding Malus", content: PathfindingMalus ? <PathfindingMalusTab values={PathfindingMalus} /> : null},
             ]}/>
             <hr/>
