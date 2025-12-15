@@ -1,6 +1,9 @@
 # Base image
 FROM node:23.3.0 AS base
 
+## Create a non-root user and group
+RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
+
 # Dependencies
 FROM base AS deps
 
@@ -21,8 +24,11 @@ FROM base AS runner
 
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone .
+COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
+
+RUN chown -R appuser:appgroup /app
+USER appuser

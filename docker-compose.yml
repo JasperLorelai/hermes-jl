@@ -7,5 +7,5 @@ services:
     hostname: "0.0.0.0"
     ports: ["3000:3000"]
     env_file: [.env.local]
-    command: node server.js
+    command: ["node", "server.js"]
     restart: unless-stopped
