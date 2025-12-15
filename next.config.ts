@@ -3,8 +3,8 @@ import {NextConfig} from "next";
 const nextConfig: NextConfig = {
   output: "standalone",
   reactStrictMode: false,
+  cacheComponents: true,
   experimental: {
-    dynamicIO: true
   },
   images: {
     remotePatterns: [
