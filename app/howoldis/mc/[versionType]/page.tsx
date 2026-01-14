@@ -8,12 +8,15 @@ import {metadata as oldMetadata} from "../page";
 import * as MCVersionHandle from "@/handles/MCVersionHandle";
 import {ParamsVersionType} from "./[version]/MCVersionParams";
 
-export async function generateMetadata(props: ParamsVersionType): Promise<Metadata> {
-    const {versionType} = await props.params;
-
+export async function extendMetadata(versionType: string): Promise<Metadata> {
     const old = Object.assign({}, oldMetadata);
     if (old.openGraph) old.openGraph.url = "/howoldis/mc/" + versionType;
     return old;
+}
+
+export async function generateMetadata(props: ParamsVersionType): Promise<Metadata> {
+    const {versionType} = await props.params;
+    return extendMetadata(versionType);
 }
 
 export async function generateStaticParams() {

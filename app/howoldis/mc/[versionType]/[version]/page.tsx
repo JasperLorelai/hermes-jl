@@ -5,25 +5,25 @@ import Link from "next/link";
 import {Metadata} from "next";
 import {cacheLife} from "next/dist/server/use-cache/cache-life";
 
+import {extendMetadata} from "../page";
 import {ParamsVersion} from "./MCVersionParams";
 import * as MCVersionHandle from "@/handles/MCVersionHandle";
-import {generateMetadata as generateOldMetadata} from "../page";
 
 export async function generateMetadata(params: ParamsVersion): Promise<Metadata> {
     let {versionType, version} = await params.params;
     version = await MCVersionHandle.parseVersion(versionType, version);
-    const oldMetadata = Object.assign({}, await generateOldMetadata(params));
+    const metadata = Object.assign({}, await extendMetadata(versionType));
 
     const title = `How old is MC ${version}?`;
-    oldMetadata.title = title;
+    metadata.title = title;
     const releaseTime = await MCVersionHandle.getReleaseTime(version);
-    if (releaseTime && oldMetadata.openGraph) {
-        oldMetadata.openGraph.title = title;
-        oldMetadata.openGraph.url = `/howoldis/mc/${versionType}/${version}`;
-        oldMetadata.openGraph.description = releaseTime.date.toUTCString() + " - " + releaseTime.age;
+    if (releaseTime && metadata.openGraph) {
+        metadata.openGraph.title = title;
+        metadata.openGraph.url = `/howoldis/mc/${versionType}/${version}`;
+        metadata.openGraph.description = releaseTime.date.toUTCString() + " - " + releaseTime.age;
     }
 
-    return oldMetadata;
+    return metadata;
 }
 
 export default async function Page(props: ParamsVersion) {
