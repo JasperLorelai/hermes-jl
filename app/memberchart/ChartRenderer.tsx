@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, {useEffect} from "react";
 
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
@@ -12,9 +12,10 @@ export type ChartConfig = {
     chartData: Record<string, {category: string, count: number}[]>,
 };
 
-export default class ChartRenderer extends React.Component<{chartConfig: ChartConfig}, any> {
+export default function ChartRenderer(props: {chartConfig: ChartConfig}) {
+    const {chartConfig: {categories, chartData}} = props;
 
-    componentDidMount() {
+    useEffect(() => {
         // Create root:
         am5.registry.rootElements.forEach(r => {
             if (r.dom.id !== "chart") return;
@@ -44,8 +45,6 @@ export default class ChartRenderer extends React.Component<{chartConfig: ChartCo
             behavior: "none"
         }));
         cursor.lineY.set("visible", false);
-
-        const {chartConfig: {categories, chartData}} = this.props;
 
         const xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
             categoryField: "category",
@@ -100,12 +99,9 @@ export default class ChartRenderer extends React.Component<{chartConfig: ChartCo
         legend.data.setAll(chart.series.values);
 
         chart.appear(1000, 100).then();
-    }
+    }, []);
 
-    render() {
-        return (
-            <div id="chart" style={{"width": "100%", "height": "500px"}} />
-        );
-    }
-
+    return (
+        <div id="chart" style={{"width": "100%", "height": "500px"}} />
+    );
 }
