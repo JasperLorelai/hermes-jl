@@ -16,6 +16,8 @@ export type Goals = Record<string, GoalData>;
 export type Documentation = {
     cleanVersion: string,
     supportedVersions: string,
+    AnimalClass: string[],
+    EntityClass: string[],
     LivingEntityClass: string[],
     PathfindingMalus?: Record<string, number>,
     goals: Goals
