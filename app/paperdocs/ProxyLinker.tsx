@@ -22,7 +22,7 @@ const urls: { [name: string]: URL } = {
     },
     paper: {
         url: "https://jd.papermc.io/paper/",
-        replace: i => i.replace(/^https:\/\/jd\.papermc\.io\/paper\/\d\.\d+(\.\d+)?\//, "")
+        replace: i => i.replace(/^https:\/\/jd\.papermc\.io\/paper\/\d+\.\d+(\.\d+)?\//, "")
     },
 };
 
