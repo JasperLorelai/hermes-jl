@@ -14,7 +14,7 @@ function active(hash: string, isHashPane: boolean, index: number, anchor: string
 
 export default function PaneSelector({panes}: {panes: Pane[]}) {
     panes = panes.filter(pane => pane.content);
-    const hash = window.location.hash.substring(1);
+    const hash = window == null ? "" : window.location.hash.substring(1);
     const isHashPane = panes.some(p => p.id === hash);
 
     useEffect(() => {

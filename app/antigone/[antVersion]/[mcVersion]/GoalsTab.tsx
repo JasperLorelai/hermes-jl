@@ -138,7 +138,7 @@ function search(goals: Goals, selected: string | null, term: string, mcVersion: 
 }
 
 export default function GoalsTab({goals, mcVersion}: {goals: Goals, mcVersion: string}) {
-    const hash = window.location.hash.substring(1);
+    const hash = window == null ? "" : window.location.hash.substring(1);
     const selected = goals.hasOwnProperty(hash) ? hash : null;
     const [found, setFound] = useState(search(goals, selected, "", mcVersion));
 
