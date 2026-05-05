@@ -10,6 +10,8 @@ export default class DocumentationFixes {
     public static initialFilter(antVersion: string, mcVersion: string, goals: Goals) {
         let newGoals: Goals = goals;
 
+        if (mcVersion.split(".").length == 2) mcVersion = mcVersion + ".0";
+
         switch (true) {
             case SemVer.lt(antVersion, "1.0.1"): {
                 newGoals = this.remap(newGoals, (key, data) => {
