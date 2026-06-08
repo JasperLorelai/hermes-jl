@@ -46,7 +46,7 @@ export default async function Page(props: ParamsVersion) {
             {releaseTime ?
                 <div className="display-6">
                     <div>Version: <span className="text-primary">{version}</span></div>
-                    <div>Release Time: <a className="text-primary" href={"https://time.is/" + releaseTime.date.getTime()} target="_blank">
+                    <div>Release Time: <a className="text-primary" href={"https://time.is/" + releaseTime.date.getTime()} target="_blank" rel="noopener">
                         {releaseTime.date.toUTCString()}
                     </a></div>
                     <div>Age: <span className="text-primary">{releaseTime.age}</span></div>

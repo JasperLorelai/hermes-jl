@@ -23,12 +23,9 @@ async function getManifest(): Promise<Manifest> {
 }
 
 export async function getTypes() {
-    const types: string[] = [];
-    for (const {type} of (await getManifest()).versions) {
-        if (types.includes(type)) continue;
-        types.push(type);
-    }
-    return types;
+    const types = new Set<string>();
+    for (const {type} of (await getManifest()).versions) types.add(type);
+    return [...types];
 }
 
 export async function getIds(versionType?: string) {

@@ -21,16 +21,16 @@ export default class MemberCount extends Model<InferAttributes<MemberCount>, Inf
     
     public static async chart() {
         const chartConfig: ChartConfig = {categories: [], chartData: {}};
-        const categories: string[] = [];
+        const categories = new Set<string>();
         
         for (const data of (await MemberCount.findAll({order: [["date", "ASC"]]}))) {
-            if (!categories.includes(data.shortDate)) categories.push(data.shortDate);
+            categories.add(data.shortDate);
             
             chartConfig.chartData[data.name] ??= [];
             chartConfig.chartData[data.name].push({category: data.shortDate, count: data.count});
         }
         
-        chartConfig.categories = categories.map(category => ({category}));
+        chartConfig.categories = [...categories].map(category => ({category}));
         return chartConfig;
     }
     

@@ -51,6 +51,6 @@ function item(link: Link | string) {
     const {url, text} = link;
     const target = link.target || "_self";
     return url.startsWith("/") ?
-        <Link className="nav-link" target={link.target} href={url} prefetch={true}>{text}</Link> :
+        <Link className="nav-link" target={link.target} rel={link.target === "_blank" ? "noopener" : undefined} href={url} prefetch={true}>{text}</Link> :
         <a className="nav-link" target={target} href={url}>{text}</a>
 }

@@ -18,6 +18,8 @@ export default function PaneSelector({panes}: {panes: Pane[]}) {
     const isHashPane = panes.some(p => p.id === hash);
 
     useEffect(() => {
+        const unsub: Function[] = [];
+
         for (const pane of [...document.getElementsByClassName("pane-button")]) {
             function swapper() {
                 if (pane.classList.contains("active"))
@@ -26,7 +28,14 @@ export default function PaneSelector({panes}: {panes: Pane[]}) {
             }
             pane.addEventListener("hidden.bs.tab", swapper);
             pane.addEventListener("shown.bs.tab", swapper);
+
+            unsub.push(() => {
+                pane.removeEventListener("hidden.bs.tab", swapper);
+                pane.removeEventListener("shown.bs.tab", swapper);
+            });
         }
+
+        return () => unsub.forEach(f => f());
     }, []);
 
     return (

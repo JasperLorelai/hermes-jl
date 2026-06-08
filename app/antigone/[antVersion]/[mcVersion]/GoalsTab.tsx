@@ -34,7 +34,7 @@ function resolveMarkdownLinks(string: string, mcVersion: string) {
             url = baseURL + url.replace(/(\/paperdocs\/[^/]+\/)/, `$1${mcVersion}/`);
         }
         
-        string = string.replace(match[0], `<a target="_blank" href="${url}">${match[1]}</a>`);
+        string = string.replace(match[0], `<a target="_blank" rel="noopener" href="${url}">${match[1]}</a>`);
     }
     return string;
 }
@@ -89,7 +89,7 @@ function search(goals: Goals, selected: string | null, term: string, mcVersion: 
                     {goalData.extends ?
                         <li>
                             <b>Extends goal: </b>
-                            <a href={`#${goalData.extends}`} target="_blank" className="text-decoration-none text-primary">{goalData.extends}</a>
+                            <a href={`#${goalData.extends}`} target="_blank" rel="noopener" className="text-decoration-none text-primary">{goalData.extends}</a>
                         </li> :
                         <></>
                     }
@@ -143,6 +143,8 @@ export default function GoalsTab({goals, mcVersion}: {goals: Goals, mcVersion: s
     const [found, setFound] = useState(search(goals, selected, "", mcVersion));
 
     useEffect(() => {
+        const unsub: Function[] = [];
+
         for (const pill of [...document.getElementsByClassName("goal-pill")]) {
             function swapper() {
                 const isActive = pill.classList.contains("active");
@@ -153,7 +155,14 @@ export default function GoalsTab({goals, mcVersion}: {goals: Goals, mcVersion: s
             }
             pill.addEventListener("hide.bs.tab", swapper);
             pill.addEventListener("show.bs.tab", swapper);
+
+            unsub.push(() => {
+                pill.removeEventListener("hide.bs.tab", swapper);
+                pill.removeEventListener("show.bs.tab", swapper);
+            });
         }
+
+        return () => unsub.forEach(f => f());
     }, []);
 
     return (

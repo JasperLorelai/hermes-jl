@@ -11,13 +11,13 @@ export default function HeadingRedirect() {
     useEffect(() => {
         const redirect = () => {
             const href = Heading.upgrade(window.location.pathname, window.location.hash);
-            if (href) router.push(href);
+            if (href && href !== window.location.href) router.push(href);
         };
         window.addEventListener("hashchange", redirect);
         redirect();
 
         return () => window.removeEventListener("hashchange", redirect);
-    });
+    }, []);
 
     return (<></>);
 }
