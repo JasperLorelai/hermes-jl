@@ -1,4 +1,5 @@
 const SupportedVersions = [
+    "26.2",
     "26.1.2",
     "26.1.1",
     "1.21.11",
