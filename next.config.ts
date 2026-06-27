@@ -25,17 +25,21 @@ const nextConfig: NextConfig = {
             value: "SAMEORIGIN",
           },
           {
-            key: "Referrer-Policy",
-            value: "same-origin",
+            key: "Content-Security-Policy",
+            value: "frame-ancestors 'self'"
           },
           {
             key: "Referrer-Policy",
-            value: "same-origin",
+            value: "strict-origin-when-cross-origin",
           },
           {
             key: "Permissions-Policy",
-            value: "",
-          }
+            value: "camera=(), microphone=(), geolocation=()",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff"
+          },
         ]
       }
     ];
